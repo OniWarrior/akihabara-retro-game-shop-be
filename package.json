@@ -1,0 +1,11 @@
+{
+  "name": "akihabara-retro-game-shop-be",
+  "version": "1.0.0",
+  "description": "This is the back-end api for the akihabara retro game shop front end",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Stephen Aranda",
+  "license": "ISC"
+}
