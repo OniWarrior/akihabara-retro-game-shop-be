@@ -28,13 +28,13 @@ const restricted = (req, res, next) => {
 }
 
 
-// middleware- checks if email exists when signing in.
-const checkIfEmailExists = async (req, res, next) => {
-    // get email from body
-    const { email } = req.body
+// middleware- checks if username exists when signing in.
+const checkIfUsernameExists = async (req, res, next) => {
+    // get username from body
+    const { username } = req.body
 
     // Try to find user by provided email
-    const user = await User.findByEmail(email)
+    const user = await User.findByUsername(username)
     if (user) {
         req.userData = user
         next()
@@ -48,17 +48,17 @@ const checkIfEmailExists = async (req, res, next) => {
 
 }
 
-// Middleware- check if email already registered when opening new account
-const checkIfEmailAlreadyRegistered = async (req, res, next) => {
+// Middleware- check if username already registered when opening new account
+const checkIfUsernameAlreadyRegistered = async (req, res, next) => {
 
-    // retrieve email from body
-    const { email } = req.body
+    // retrieve username from body
+    const { username } = req.body
 
-    // try to find the user by provided email
-    const user = await User.findByEmail(email)
+    // try to find the user by provided username
+    const user = await User.findByUsername(username)
 
     if (user) {
-        req.status(422).json("Email already registered")
+        req.status(422).json("Username already registered")
 
     }
     else {
@@ -72,11 +72,11 @@ const checkIfEmailAlreadyRegistered = async (req, res, next) => {
 const checkForMissingCredentials = (req, res, next) => {
 
     // Retrieve email and password from the body
-    const { email, password } = req.body
+    const { username, password } = req.body
 
     // check if email and password are null
-    if ((!email || !password) || (email === '' || password === '')) {
-        res.status(400).json("Email and Password are required")
+    if ((!username || !password) || (username === '' || password === '')) {
+        res.status(400).json("Username and Password are required")
 
     }
     else {
@@ -88,8 +88,8 @@ const checkForMissingCredentials = (req, res, next) => {
 
 module.exports = {
     restricted,
-    checkIfEmailExists,
-    checkIfEmailAlreadyRegistered,
+    checkIfUsernameExists,
+    checkIfUsernameAlreadyRegistered,
     checkForMissingCredentials
 
 }
