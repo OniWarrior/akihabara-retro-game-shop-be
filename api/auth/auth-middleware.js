@@ -47,3 +47,8 @@ const checkIfEmailExists = async (req, res, next) => {
 
 
 }
+
+
+const checkIfEmailAlreadyRegistered = async (req, res, next) => {
+    const { email } = req.body
+}
