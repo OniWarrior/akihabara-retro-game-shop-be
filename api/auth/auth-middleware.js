@@ -84,3 +84,12 @@ const checkForMissingCredentials = (req, res, next) => {
     }
 
 }
+
+
+module.exports = {
+    restricted,
+    checkIfEmailExists,
+    checkIfEmailAlreadyRegistered,
+    checkForMissingCredentials
+
+}
