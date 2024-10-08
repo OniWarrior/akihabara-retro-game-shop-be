@@ -40,6 +40,9 @@ router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (
                 })
 
         }
+        else {
+            res.status(401).json("Invalid username/password credentials")
+        }
 
 
 
