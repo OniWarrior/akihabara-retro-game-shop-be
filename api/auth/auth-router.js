@@ -77,6 +77,12 @@ router.post('/register', checkForMissingCredentials, checkIfUsernameAlreadyRegis
             password: user.password
         }
 
+        // inject the object to db
+        const addedUser = await User.addUser(creds)
+
+        // check whether or not user was added successfully
+
+
 
 
 
