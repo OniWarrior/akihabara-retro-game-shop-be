@@ -48,7 +48,8 @@ router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (
 
 
 
-    } catch {
+    } catch (err) {
+        res.status(500).json(`Server Error: ${err.message}`)
 
     }
 })
