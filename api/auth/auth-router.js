@@ -25,6 +25,21 @@ router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (
         // check the password
         const encryption = bcrypt.compareSync(password, user.password)
 
+        // if you have a valid user and password make the token
+        if (user && encryption) {
+
+            // make the token
+            const token = makeToken(user)
+
+            // respond with the token
+            res.status(201)
+                .cookie('cookie', token)
+                .json({
+                    message: `Welcome back ${user.username}`,
+                    token: token
+                })
+
+        }
 
 
 
