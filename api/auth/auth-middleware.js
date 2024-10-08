@@ -35,6 +35,14 @@ const checkIfEmailExists = async (req, res, next) => {
 
     // Try to find user by provided email
     const user = await User.findByEmail(email)
+    if (user) {
+        req.userData = user
+        next()
+
+    }
+    else {
+        req.status(401).json("Invalid credentials")
+    }
 
 
 
