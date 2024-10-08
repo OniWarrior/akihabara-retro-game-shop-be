@@ -59,6 +59,29 @@ router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (
 router.post('/register', checkForMissingCredentials, checkIfUsernameAlreadyRegistered, async (req, res, next) => {
     try {
 
+        // get user creds from body
+        let user = req.body
+
+        // convert the rounds string to int
+        const rounds = parseInt(process.env.ROUNDS)
+
+        // hash the passwords
+        const hash = bcrypt.hashSync(user.password, rounds)
+
+        // assigned hashed password to user password
+        user.password = hash
+
+        // create user object to be injected into database
+        const creds = {
+            username: user.username,
+            password: user.password
+        }
+
+
+
+
+
+
     }
     catch (err) {
 
