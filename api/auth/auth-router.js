@@ -92,6 +92,7 @@ router.post('/register', checkForMissingCredentials, checkIfUsernameAlreadyRegis
 
     }
     catch (err) {
+        res.status(500).json(`Server Error: ${err.message}`)
 
     }
 
