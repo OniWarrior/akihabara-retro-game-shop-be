@@ -26,3 +26,12 @@ const restricted = (req, res, next) => {
     }
 
 }
+
+
+// middleware- checks if email exists when signing in.
+const checkIfEmailExists = (req, res, next) => {
+    // get email from body
+    const { email } = req.body
+
+
+}
