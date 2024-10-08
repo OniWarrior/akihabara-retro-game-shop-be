@@ -16,6 +16,17 @@ const router = require('express')
 router.post('/login', checkForMissingCredentials, checkIfEmailExists, async (req, res, next) => {
 
     try {
+        // retrieve credentials
+        const { email, password } = req.body
+
+        // find user
+        const user = await User.findByEmail(email)
+
+        // check the password
+        const encryption = bcrypt.compareSync(password, user.password)
+
+
+
 
     } catch {
 
