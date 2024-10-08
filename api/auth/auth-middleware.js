@@ -57,7 +57,12 @@ const checkIfEmailAlreadyRegistered = async (req, res, next) => {
     // try to find the user by provided email
     const user = await User.findByEmail(email)
 
+    if (user) {
+        req.status(422).json("Email already registered")
 
-
+    }
+    else {
+        next()
+    }
 
 }
