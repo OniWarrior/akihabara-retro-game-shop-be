@@ -10,16 +10,16 @@ async function addUser(user) {
 }
 
 
-// find user by using email argument
-async function findByEmail(email) {
+// find user by using username argument
+async function findByUsername(username) {
     const found = await db('User')
-        .select('email', 'password')
-        .where({ email: email })
+        .select('username', 'password')
+        .where({ username: username })
         .first()
     return found
 }
 
 module.exports = {
     addUser,
-    findByEmail
+    findByUsername
 }
