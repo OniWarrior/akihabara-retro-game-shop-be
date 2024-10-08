@@ -81,7 +81,9 @@ router.post('/register', checkForMissingCredentials, checkIfUsernameAlreadyRegis
         const addedUser = await User.addUser(creds)
 
         // check whether or not user was added successfully
-
+        if (addedUser) {
+            res.status(201).json({ message: `Successfully added user ${addedUser}` })
+        }
 
 
 
