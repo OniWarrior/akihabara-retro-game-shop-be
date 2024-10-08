@@ -70,6 +70,17 @@ const checkIfEmailAlreadyRegistered = async (req, res, next) => {
 
 // Middleware check if credentials are null
 const checkForMissingCredentials = (req, res, next) => {
+
+    // Retrieve email and password from the body
     const { email, password } = req.body
+
+    // check if email and password are null
+    if ((!email || !password) || (email === '' || password === '')) {
+        res.status(400).json("Email and Password are required")
+
+    }
+    else {
+        next()
+    }
 
 }
