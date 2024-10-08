@@ -55,6 +55,18 @@ router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (
 })
 
 
+// path to create a new account upon registering
+router.post('/register', checkForMissingCredentials, checkIfUsernameAlreadyRegistered, async (req, res, next) => {
+    try {
+
+    }
+    catch (err) {
+
+    }
+
+})
+
+
 // make a token for successful login
 const makeToken = (credentials) => {
 
@@ -72,3 +84,7 @@ const makeToken = (credentials) => {
     return jwt.sign(payload, JWT_SECRET, options)
 
 }
+
+
+
+module.exports = router
