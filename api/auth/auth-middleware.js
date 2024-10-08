@@ -48,7 +48,16 @@ const checkIfEmailExists = async (req, res, next) => {
 
 }
 
-
+// Middleware- check if email already registered when opening new account
 const checkIfEmailAlreadyRegistered = async (req, res, next) => {
+
+    // retrieve email from body
     const { email } = req.body
+
+    // try to find the user by provided email
+    const user = await User.findByEmail(email)
+
+
+
+
 }
