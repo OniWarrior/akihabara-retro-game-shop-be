@@ -66,3 +66,10 @@ const checkIfEmailAlreadyRegistered = async (req, res, next) => {
     }
 
 }
+
+
+// Middleware check if credentials are null
+const checkForMissingCredentials = (req, res, next) => {
+    const { email, password } = req.body
+
+}
