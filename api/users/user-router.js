@@ -39,6 +39,7 @@ router.get('get-games', async (req, res, next) => {
         const available = true
         const games = await User.retrieveAvailableGames(available)
 
+        // send back response with available games
         if (games) {
             res.status(200).json({ games: games })
         }
@@ -64,15 +65,19 @@ router.get('/get-figs', async (req, res, next) => {
         const available = true
         const figs = await User.retrieveAvailableFigurines(available)
 
+        // send back response containing available figurines
         if (figs) {
+            res.status(201).json({ figs: figs })
 
         }
         else {
+            res.status(401).json('No available figurines from inventory')
 
         }
 
     }
     catch (err) {
+        res.status(500).json(`Server Error: ${err.message}`)
 
     }
 })
