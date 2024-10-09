@@ -42,12 +42,26 @@ async function retrieveAvailableGames(available) {
             'game_name',
             'game_price',
             'game_desc',
-            'game_img'
+            'game_img',
+            'game_release_year'
         ])
         .where({ isAvailable: available })
     return availableGames
 }
 
+
+// retrieve user's bought manga
+async function retrieveUserManga(username) {
+    const userManga = await db('Manga')
+        .select([
+            'manga_id',
+            'manga_name',
+            'manga_desc',
+            'manga_cov_img'
+        ])
+        .where({ username: username })
+    return userManga
+}
 module.exports = {
     addUser,
     findByUsername,
