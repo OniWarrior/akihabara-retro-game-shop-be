@@ -35,6 +35,12 @@ router.get('/get-manga', async (req, res, next) => {
 router.get('get-games', async (req, res, next) => {
     try {
 
+        // retrieve all available games from the shop
+        const avaialble = true
+        const games = await User.retrieveAvailableGames(available)
+
+
+
     }
     catch (err) {
 
