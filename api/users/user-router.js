@@ -60,8 +60,22 @@ router.get('get-games', async (req, res, next) => {
 router.get('/get-figs', async (req, res, next) => {
     try {
 
+        // retrieve all available figs from db
+        const available = true
+        const figs = await User.retrieveAvailableFigurines(available)
+
+        if (figs) {
+
+        }
+        else {
+
+        }
+
     }
     catch (err) {
 
     }
 })
+
+
+module.exports = router
