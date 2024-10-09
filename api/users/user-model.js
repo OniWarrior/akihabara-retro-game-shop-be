@@ -19,6 +19,21 @@ async function findByUsername(username) {
     return found
 }
 
+
+// retrieve all available manga from the database
+async function retrieveAvailableManga(available) {
+    const availableManga = await db('Manga')
+        .returning([
+            'manga_id',
+            'manga_name',
+            'manga_price',
+            'manga_desc',
+            'manga_cov_img'
+        ])
+        .where({ isAvailable: available })
+    return availableManga
+}
+
 module.exports = {
     addUser,
     findByUsername
