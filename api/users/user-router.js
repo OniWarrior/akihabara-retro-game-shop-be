@@ -31,3 +31,15 @@ router.get('/get-manga', async (req, res, next) => {
     }
 })
 
+// path to retrieve all available games in the shop
+router.get('get-games', async (req, res, next) => {
+    try {
+
+    }
+    catch (err) {
+
+    }
+})
+
+
+
