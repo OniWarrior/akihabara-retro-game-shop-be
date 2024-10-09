@@ -94,6 +94,20 @@ async function retrieveUserGames(username) {
     return userGames
 }
 
+// retrieve user's bought figurines
+async function retrieveUserFigurines(username) {
+    const userFigs = await db('Figurines')
+        .select([
+            'fig_id',
+            'fig_name',
+            'fig_desc',
+            'fig_img',
+            'fig_release_year'
+        ])
+        .where({ username: username })
+    return userFigs
+}
+
 
 module.exports = {
     addUser,
@@ -102,5 +116,6 @@ module.exports = {
     retrieveAvailableGames,
     retrieveUserManga,
     retrieveUserGames,
-    retrieveAvailableFigurines
+    retrieveAvailableFigurines,
+    retrieveUserFigurines
 }
