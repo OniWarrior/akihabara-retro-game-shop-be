@@ -36,7 +36,7 @@ router.get('get-games', async (req, res, next) => {
     try {
 
         // retrieve all available games from the shop
-        const avaialble = true
+        const available = true
         const games = await User.retrieveAvailableGames(available)
 
         if (games) {
@@ -56,4 +56,12 @@ router.get('get-games', async (req, res, next) => {
 })
 
 
+// path to retrieve all available figurines from the shop
+router.get('/get-figs', async (req, res, next) => {
+    try {
 
+    }
+    catch (err) {
+
+    }
+})
