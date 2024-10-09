@@ -13,11 +13,20 @@ router.get('/get-manga', async (req, res, next) => {
         const available = true
         const manga = await User.retrieveAvailableManga(available)
 
+        // send back response containing available manga
+        if (manga) {
+            res.status(200).json({ manga: manga })
+        }
+        else {
+            res.status(401).json("No Manga available")
+        }
+
 
 
 
     }
     catch (err) {
+        res.status(500).json(`Server Error: ${err.message}`)
 
     }
 })
