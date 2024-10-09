@@ -39,10 +39,18 @@ router.get('get-games', async (req, res, next) => {
         const avaialble = true
         const games = await User.retrieveAvailableGames(available)
 
+        if (games) {
+            res.status(200).json({ games: games })
+        }
+        else {
+            res.status(401).json("No available games")
+        }
+
 
 
     }
     catch (err) {
+        res.status(500).json(`Server Error: ${err.message}`)
 
     }
 })
