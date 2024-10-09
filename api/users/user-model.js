@@ -34,7 +34,23 @@ async function retrieveAvailableManga(available) {
     return availableManga
 }
 
+// retrieve all available games
+async function retrieveAvailableGames(available) {
+    const availableGames = await db('Games')
+        .returning([
+            'game_id',
+            'game_name',
+            'game_price',
+            'game_desc',
+            'game_img'
+        ])
+        .where({ isAvailable: available })
+    return availableGames
+}
+
 module.exports = {
     addUser,
-    findByUsername
+    findByUsername,
+    retrieveAvailableManga,
+    retrieveAvailableGames
 }
