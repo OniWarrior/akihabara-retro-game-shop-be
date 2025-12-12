@@ -1,3 +1,8 @@
+/*
+ * Author: Stephen Aranda
+ * file  : auth-middleware.js
+ * Desc  : file that contains middleware used among auth-router.
+ * */
 const { JWT_SECRET } = require('./secrets/secret')
 const jwt = require('jsonwebtoken')
 const User = require('../users/user-model')
@@ -33,14 +38,16 @@ const checkIfUsernameExists = async (req, res, next) => {
     // get username from body
     const { username } = req.body
 
-    // Try to find user by provided email
+    // Try to find user by provided email/username
     const user = await User.findByUsername(username)
     if (user) {
+        // successfully found user-assign found user to userData
         req.userData = user
         next()
 
     }
     else {
+        // send failure response if username doesn't exist
         req.status(401).json("Invalid credentials")
     }
 
