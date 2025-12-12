@@ -1,3 +1,8 @@
+/*
+ * Author: Stephen Aranda
+ * File  : auth-router
+ * Desc  : file that contains the endpoints for login and signup
+ *  */
 const User = require('../users/user-model')
 const {
     restricted,
@@ -12,8 +17,10 @@ const JWT_SECRET = require('./secrets/secret')
 const router = require('express').Router()
 
 
-// path to login existing user
-router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (req, res, next) => {
+/*
+ * /login: endpoint that processes the login credentials in the req body and logs the user in.
+ * */
+router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (req, res) => {
 
     try {
         // retrieve credentials
