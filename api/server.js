@@ -38,10 +38,12 @@ server.use(helmet());
 server.use(express.json());
 
 // setting cors
-server.use({
-    origin: process.env.CLIENT_ORIGIN,
-    credentials: true
-});
+server.use(
+    cors({
+        origin: process.env.CLIENT_ORIGIN,
+        credentials: true,
+    })
+);
 
 // postgres pool for the session store
 const pool = new pg.Pool({
@@ -50,6 +52,30 @@ const pool = new pg.Pool({
 
 // session store
 const PgSession = connectPgSimple(session);
+
+server.use(
+    session({
+        store: new PgSession({
+            pool,
+            tableName: "session",
+            // pruneSessionInterval: 60 * 15, // optional: prune expired sessions every 15 min
+        }),
+        name: "sid",
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        rolling: true,
+        cookie: {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: process.env.NODE_ENV === "production", // must be HTTPS in prod
+            maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        },
+    })
+);
+
+//TODO - add routers once they are completed
+
 
 
 
