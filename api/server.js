@@ -36,5 +36,16 @@ server.set('trust proxy', 1);
 server.use(helmet());
 server.use(express.json());
 
+// setting cors
+server.use({
+    origin: process.env.CLIENT_ORIGIN,
+    credentials: true
+});
+
+// postgres pool for the session store
+const pool = new pg.Pool({
+    connectionString: process.env.DATABASE_URL || process.env.DEV_DATABASE_URL
+})
+
 
 
