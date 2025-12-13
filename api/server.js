@@ -26,4 +26,7 @@ const pgSimple = require('connect-pg-simple');
 // const for pg- postgreSQL db
 const pg = require('pg');
 
+// create express app
+const server = express();
+
 
