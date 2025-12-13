@@ -23,4 +23,7 @@ const session = require('express-session');
 // const for pg-simple default sessions table
 const pgSimple = require('connect-pg-simple');
 
+// const for pg- postgreSQL db
+const pg = require('pg');
+
 
