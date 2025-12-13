@@ -20,4 +20,7 @@ const cors = require('cors');
 // const for creating a session
 const session = require('express-session');
 
+// const for pg-simple default sessions table
+const pgSimple = require('connect-pg-simple');
+
 
