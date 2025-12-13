@@ -29,4 +29,7 @@ const pg = require('pg');
 // create express app
 const server = express();
 
+// Heroku provides reverse proxy support (needed for secure cookies in prod)
+server.set('trust proxy', 1);
+
 
