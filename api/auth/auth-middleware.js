@@ -6,6 +6,7 @@
 const { JWT_SECRET } = require('./secrets/secret')
 const jwt = require('jsonwebtoken')
 const User = require('../users/user-model')
+const bcrypt = require('bcrypt')
 
 
 //middleware-verifies that json web token is in user's header
@@ -33,14 +34,18 @@ const restricted = (req, res, next) => {
 }
 
 
-// middleware- checks if username exists when signing in.
-const checkIfUsernameExists = async (req, res, next) => {
-    // get username from body
-    const { username } = req.body
+// middleware- checks if username exists and validate the password when signing in.
+const validateUsernameAndPassword = async (req, res, next) => {
+    // get username and password from body
+    const { username, password } = req.body
 
     // Try to find user by provided email/username
     const user = await User.findByUsername(username)
-    if (user) {
+
+    // check the password
+    const encryption = bcrypt.compareSync(password, user.password)
+
+    if (user && encryption) {
         // successfully found user-assign found user to userData
         req.userData = user
         next()
@@ -54,6 +59,8 @@ const checkIfUsernameExists = async (req, res, next) => {
 
 
 }
+
+
 
 // Middleware- check if username already registered when opening new account
 const checkIfUsernameAlreadyRegistered = async (req, res, next) => {
@@ -95,7 +102,7 @@ const checkForMissingCredentials = (req, res, next) => {
 
 module.exports = {
     restricted,
-    checkIfUsernameExists,
+    validateUsernameAndPassword,
     checkIfUsernameAlreadyRegistered,
     checkForMissingCredentials
 
