@@ -27,7 +27,47 @@ exports.up = function (knex) {
             products.string('name', 40).notNullable()
             products.decimal('cost', 10, 2).notNullable()
             products.string('image_url').notNullable()
+            products.integer('quantity').notNullable() // we can have multiples of the same product-used for inventory
         })
+
+        // table for orders records
+        .createTable('orders', orders => {
+            orders.increments('order_id').primary()
+            orders.integer('product_id')
+                .references('product_id')
+                .inTable('products')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE')
+            orders.integer('user_id')
+                .references('user_id')
+                .inTable('users')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE')
+            orders.string('name')
+                .references('name')
+                .inTable('products')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE')
+            orders.decimal('cost')
+                .references('cost')
+                .inTable('products')
+                .inUpdate('CASCADE')
+                .inDelete('CASCADE')
+            orders.string('image_url')
+                .references('image_url')
+                .inTable('products')
+                .inUpdate('CASCADE')
+                .inDelete('CASCADE')
+            orders.integer('quantity')
+                .references('quantity')
+                .inTable('products')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE')
+            orders.date('date').notNullable()
+
+        })
+
+
 
 
 
