@@ -32,4 +32,9 @@ const server = express();
 // Heroku provides reverse proxy support (needed for secure cookies in prod)
 server.set('trust proxy', 1);
 
+// core middleware
+server.use(helmet());
+server.use(express.json());
+
+
 
