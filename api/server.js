@@ -17,4 +17,7 @@ const helmet = require('helmet');
 // const for cors-config to allow only authorized front end to use api
 const cors = require('cors');
 
+// const for creating a session
+const session = require('express-session');
+
 
