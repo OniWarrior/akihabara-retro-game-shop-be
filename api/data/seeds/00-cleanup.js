@@ -1,7 +1,7 @@
 /*
  * Author: Stephen Aranda
  * File  : 00-cleanup.js
- * Desc  : nukes dp of all data in the event knex seed:run
+ * Desc  : nukes dp of all data in the event knex seed:run to clean db.
  * */
 
 // const for knex cleaner
