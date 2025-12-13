@@ -14,4 +14,7 @@ const express = require('express');
 // const for helmet middleware-masks headers of client
 const helmet = require('helmet');
 
+// const for cors-config to allow only authorized front end to use api
+const cors = require('cors');
+
 
