@@ -21,6 +21,13 @@ exports.up = function (knex) {
             users.string('username', 20).notNullable().unique()
             users.string('password', 40).notNullable()
         })
+        // table for products
+        .createTable('products', products => {
+            products.increments('product_id').primary()
+            products.string('name', 40).notNullable()
+            products.decimal('cost', 10, 2).notNullable()
+            products.string('image_url').notNullable()
+        })
 
 
 
