@@ -5,4 +5,7 @@
  *       : also sets cors options and sessions config.
  */
 
-const server = require('express');
+// importing the use of env vars
+require('dotenv').config();
+
+
