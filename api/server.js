@@ -25,6 +25,7 @@ const pgSimple = require('connect-pg-simple');
 
 // const for pg- postgreSQL db
 const pg = require('pg');
+const connectPgSimple = require('connect-pg-simple');
 
 // create express app
 const server = express();
@@ -45,7 +46,12 @@ server.use({
 // postgres pool for the session store
 const pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL || process.env.DEV_DATABASE_URL
-})
+});
+
+// session store
+const PgSession = connectPgSimple(session);
+
+
 
 
 
