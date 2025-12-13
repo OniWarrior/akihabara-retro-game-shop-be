@@ -6,12 +6,12 @@
 const User = require('../users/user-model')
 const {
     restricted,
-    checkIfUsernameExists,
+    validateUsernameAndPassword,
     checkIfUsernameAlreadyRegistered,
     checkForMissingCredentials
 } = requre('./auth-middleware')
 
-const bcrypt = require('bcrypt')
+
 const jwt = require('jsonwebtoken')
 const JWT_SECRET = require('./secrets/secret')
 const router = require('express').Router()
@@ -20,7 +20,7 @@ const router = require('express').Router()
 /*
  * /login: endpoint that processes the login credentials in the req body and logs the user in.
  * */
-router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (req, res) => {
+router.post('/login', restricted, checkForMissingCredentials, validateUsernameAndPassword, async (req, res) => {
 
     try {
         // retrieve credentials
@@ -29,8 +29,7 @@ router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (
         // find user
         const user = await User.findByUsername(username)
 
-        // check the password
-        const encryption = bcrypt.compareSync(password, user.password)
+
 
         // if you have a valid user and password make the token
         if (user && encryption) {
@@ -62,7 +61,9 @@ router.post('/login', checkForMissingCredentials, checkIfUsernameExists, async (
 })
 
 
-// path to create a new account upon registering
+/*
+ *  /register: endpoint that processes the credentials for registration and creates account for user.
+ * */
 router.post('/register', checkForMissingCredentials, checkIfUsernameAlreadyRegistered, async (req, res, next) => {
     try {
 
