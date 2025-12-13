@@ -1,0 +1,4 @@
+# Dockerfile.dev- File that builds local container that is designed for hot reloads
+
+# set alpine os image
+FROM node:20-alpine 
