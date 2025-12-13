@@ -1,15 +1,22 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
+/*
+ * Author : Stephen Aranda
+ * File   : 20251213013242_tables.js
+ * Desc   : table schema for db
+ * 
  */
-exports.up = function(knex) {
-  
+exports.up = function (knex) {
+
+    return knex.schema
+        .createTable('User', users => {
+            users.increments('user_id').primary()
+            users.string('username', 20).notNullable().unique()
+            users.string('password', 40).notNullable()
+        })
+
+
 };
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.down = function(knex) {
-  
+
+exports.down = function (knex) {
+
 };
