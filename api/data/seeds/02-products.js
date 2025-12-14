@@ -5,6 +5,13 @@
  */
 
 
+
+
+// dummy products
+const products = [
+
+]
+
 // insert into db
 exports.seed = function (knex) {
     return knex('products').insert(products)
