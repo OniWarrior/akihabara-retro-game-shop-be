@@ -29,7 +29,8 @@ exports.up = function (knex) {
             products.decimal('cost', 10, 2).notNullable()
             products.string('image_url').notNullable()
             products.integer('quantity').notNullable() // we can have multiples of the same product-used for inventory
-            products.string('product_type', 30).notNullable()
+            products.string('product_type', 30).notNullable() // for filtering
+            products.string('product_desc', 128).notNullable()
         })
 
         // table for orders records
