@@ -27,10 +27,10 @@ const checkForMissingCreds = async (res, req, next) => {
 }
 
 /*
- * checkUsernameExists: check if the username provided exists in db already.
+ * validateUsername: check if the username provided exists in db already.
  * /signup middleware
  *  */
-const checkUsernameExists = async (res, req, next) => {
+const validateUsername = async (res, req, next) => {
 
     // get the username
     const { username } = req.body;
@@ -61,9 +61,32 @@ const requiredAuthorization = async (req, res, next) => {
     next();
 }
 
+/*
+ * checkUsernameExists: check if the username exists. Used for logging in
+ * /login middleware
+ */
+const checkUsernameExists = async (res, req, next) => {
+
+    // get the username
+    const { username } = req.body;
+
+    // look in the db for the username
+    const foundUsername = await User.findExistingUsername(username);
+
+    //check if the db is successful
+    if (foundUsername) {
+        // success! continue
+        next();
+    }
+    return res.status(400).json({ message: 'username/password does not exist' });
+
+}
+
+
 
 module.exports = {
     checkForMissingCreds,
+    validateUsername,
     checkUsernameExists,
     requiredAuthorization
 }
