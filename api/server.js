@@ -27,6 +27,8 @@ const pgSimple = require('connect-pg-simple');
 const pg = require('pg');
 const connectPgSimple = require('connect-pg-simple');
 
+
+
 // create express app
 const server = express();
 
@@ -129,7 +131,11 @@ server.use(
     })
 );
 
-//TODO - add routers once they are completed
+// routers to be mounted
+const authRouter = require('./auth/auth-router');
+
+// mount routers
+server.use('/api/auth', authRouter);
 
 
 
