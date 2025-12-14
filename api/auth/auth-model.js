@@ -9,5 +9,16 @@ const db = require('../data/dbConfig');
 
 
 /*
- *
+ * findExistingUsername: search for existing username using username parameter
  */
+const findExistingUsername = async (username) => {
+    const username = await db('users')
+        .select('username')
+        .where('username', username)
+        .first()
+    return username
+}
+
+module.exports = {
+    findExistingUsername
+}
