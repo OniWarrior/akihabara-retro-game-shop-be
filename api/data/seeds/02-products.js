@@ -102,7 +102,7 @@ const products = [
         image_url: 'https://images.unsplash.com/photo-1652197881268-d625ad54402b?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         quantity: 2,
         product_type: 'console',
-        product_desc: 'Japanese import of Gameboy Advance! Comes with three games'
+        product_desc: 'Japanese import of Gameboy Advance! Comes with three games!'
     }
 
 
