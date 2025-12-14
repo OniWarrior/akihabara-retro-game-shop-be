@@ -16,6 +16,18 @@ const {
 
 const router = require('express').Router();
 
+/*
+ * Public status: endpoint that tests whether a session is created at login.
+ *              : A cookie is being set and subsequent request see the same req.session.user
+ */
+router.get('/status', async (req, res) => {
+
+    // check for a failed retrieval
+    if (!req.session?.user) {
+        return res.status(400).json({ authentication: false });
+    }
+})
+
 
 /*
  * /logout: endpoint to log out a user from a session
