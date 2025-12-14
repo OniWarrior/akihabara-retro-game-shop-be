@@ -32,6 +32,19 @@ const products = [
         quantity: 3,
         product_type: 'figurine',
         product_desc: 'Freaking amazing Gundam figure firing BFG!'
+    },
+    {
+        /*
+         * attribution: Photo by <a href="https://unsplash.com/@caio_delarolle?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">CAIO DELAROLLE</a> on <a href="https://unsplash.com/photos/one-piece-manga-volume-31-is-open-8qAHY3bXyss?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      
+         */
+        name: 'One Piece Volume: 31',
+        cost: 20.00,
+        image_url: 'https://images.unsplash.com/photo-1742414304022-b38977ce1533?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        quantity: 4,
+        product_type: 'book',
+        product_desc: "It's One Piece! Volume 31 manga in Luffy's adventure to find the One Piece!"
+
     }
 
 ]
