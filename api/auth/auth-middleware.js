@@ -38,4 +38,11 @@ const checkUsernameExists = async (res, req, next) => {
     // look in the db for the username
     const foundUsername = await User.findExistingUsername(username);
 
+    //check if the db is successful
+    if (!foundUsername) {
+        // success! continue
+        next();
+    }
+    return res.status(400).json({ message: 'username already found!' });
+
 }
