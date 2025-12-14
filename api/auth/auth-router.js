@@ -21,6 +21,14 @@ const router = require('express').Router();
 router.post('/logout', checkForMissingCreds, requiredAuthorization, async (req, res) => {
     try {
 
+        // destroy the current session to perform logout
+        req.session.destroy(() => {
+
+            return res.status(200).clearCookie('sid').json({ message: "Logged out" });
+
+
+        })
+
     } catch (err) {
         // failure response
         return res.status(500).json({ message: `Server Error: ${err.message}` });
