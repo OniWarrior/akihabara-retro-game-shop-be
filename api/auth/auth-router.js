@@ -17,7 +17,7 @@ const {
 const router = require('express').Router();
 
 /*
- * Public status: endpoint that tests whether a session is created at login.
+ * (Public) /status: endpoint that tests whether a session is created at login.
  *              : A cookie is being set and subsequent request see the same req.session.user
  */
 router.get('/status', async (req, res) => {
@@ -32,6 +32,13 @@ router.get('/status', async (req, res) => {
         authentication: true,
         user: req.session.user
     })
+})
+
+/*
+ *  /me: endpoint that tests authorization middleware
+ */
+router.get('/me', requiredAuthorization, async (req, res) => {
+    return res.status(200).json({ user: req.session.user });
 })
 
 
