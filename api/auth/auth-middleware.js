@@ -4,3 +4,16 @@
  * Desc  : file that contains all the middleware that's used for authorization and authentication
  *       : in endpoints.
 * */
+
+/*
+ * checkForMissingCreds: check if there are missing username or password for a login or signup
+ */
+const checkForMissingCreds = async (res, req, next) => {
+
+    // get the username and password from the req.body
+    const {
+        username,
+        password
+    } = req.body;
+
+}
