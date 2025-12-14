@@ -50,7 +50,7 @@ const checkUsernameExists = async (res, req, next) => {
 /*
  * requiredAuth: check authorization of user by checking their session
  * */
-const requiredAuth = async (req, res, next) => {
+const requiredAuthorization = async (req, res, next) => {
 
     // check if user has a authorized session
     if (!req.session?.user) {
@@ -64,5 +64,6 @@ const requiredAuth = async (req, res, next) => {
 
 module.exports = {
     checkForMissingCreds,
-    checkUsernameExists
+    checkUsernameExists,
+    requiredAuthorization
 }
