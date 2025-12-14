@@ -49,8 +49,13 @@ router.post('/logout', checkForMissingCreds, requiredAuthorization, async (req, 
     try {
 
         // destroy the current session to perform logout
-        req.session.destroy(() => {
+        req.session.destroy((err) => {
+            // check if logout failed
+            if (err) {
+                return res.status(500).json({ message: "Logout failed" });
+            }
 
+            // logout successful
             return res.status(200).clearCookie('sid').json({ message: "Logged out" });
 
 
