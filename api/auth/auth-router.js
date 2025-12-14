@@ -26,6 +26,12 @@ router.get('/status', async (req, res) => {
     if (!req.session?.user) {
         return res.status(400).json({ authentication: false });
     }
+
+    // is successful, return success response
+    return res.status(200).json({
+        authentication: true,
+        user: req.session.user
+    })
 })
 
 
