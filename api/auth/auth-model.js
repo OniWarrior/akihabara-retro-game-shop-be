@@ -13,7 +13,7 @@ const db = require('../data/dbConfig');
  */
 const findExistingUsername = async (username) => {
     const foundUsername = await db('users')
-        .select('username')
+        .select('user_id', 'username')
         .where('username', username)
         .first()
     return foundUsername
