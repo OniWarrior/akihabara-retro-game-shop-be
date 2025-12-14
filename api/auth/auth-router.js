@@ -34,3 +34,17 @@ router.post('/logout', checkForMissingCreds, requiredAuthorization, async (req, 
         return res.status(500).json({ message: `Server Error: ${err.message}` });
     }
 })
+
+/*
+ * /login: logs in the user with provided credentials
+ */
+router.post('/login', checkForMissingCreds, requiredAuthorization, async (req, res) => {
+    try {
+
+    } catch (err) {
+        // failure response
+        return res.status(500).json({ message: `Server Error ${err.message}` });
+    }
+})
+
+module.exports = router;
