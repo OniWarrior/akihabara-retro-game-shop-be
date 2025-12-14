@@ -5,3 +5,12 @@
  */
 
 const bcrypt = require('bcrypt');
+
+
+const users = [
+    {
+        username: 'hello_there_123',
+        password: '741852963!@#',
+        user_type: 'Customer'
+    }
+]
