@@ -43,6 +43,12 @@ const checkUsernameExists = async (res, req, next) => {
         // success! continue
         next();
     }
-    return res.status(400).json({ message: 'username already found!' });
+    return res.status(400).json({ message: 'username already exists!' });
 
+}
+
+
+module.exports = {
+    checkForMissingCreds,
+    checkUsernameExists
 }
