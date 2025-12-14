@@ -20,6 +20,7 @@ exports.up = function (knex) {
             users.increments('user_id').primary()
             users.string('username', 20).notNullable().unique()
             users.string('password', 40).notNullable()
+            users.string('user_type', 10).notNullable()
         })
         // table for products
         .createTable('products', products => {
@@ -28,6 +29,7 @@ exports.up = function (knex) {
             products.decimal('cost', 10, 2).notNullable()
             products.string('image_url').notNullable()
             products.integer('quantity').notNullable() // we can have multiples of the same product-used for inventory
+            products.string('product_type', 30).notNullable()
         })
 
         // table for orders records
@@ -58,11 +60,7 @@ exports.up = function (knex) {
                 .inTable('products')
                 .inUpdate('CASCADE')
                 .inDelete('CASCADE')
-            orders.integer('quantity')
-                .references('quantity')
-                .inTable('products')
-                .onUpdate('CASCADE')
-                .onDelete('CASCADE')
+            orders.integer('quantity').notNullable()
             orders.date('date').notNullable()
 
         })
