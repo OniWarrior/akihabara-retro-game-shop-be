@@ -16,4 +16,9 @@ const checkForMissingCreds = async (res, req, next) => {
         password
     } = req.body;
 
+    if (!username || !password ||
+        username === '' || password === '') {
+        return res.status(400).json({ message: 'Missing credentials' });
+    }
+
 }
