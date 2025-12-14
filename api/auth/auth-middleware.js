@@ -5,6 +5,8 @@
  *       : in endpoints.
 * */
 
+const User = require('./auth-model');
+
 /*
  * checkForMissingCreds: check if there are missing username or password for a login or signup
  */
@@ -32,5 +34,8 @@ const checkUsernameExists = async (res, req, next) => {
 
     // get the username
     const { username } = req.body;
+
+    // look in the db for the username
+    const foundUsername = await User.findExistingUsername(username);
 
 }
