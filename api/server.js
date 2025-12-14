@@ -27,10 +27,24 @@ const pgSimple = require('connect-pg-simple');
 const pg = require('pg');
 const connectPgSimple = require('connect-pg-simple');
 
+
+
 // create express app
 const server = express();
 
-// Heroku provides reverse proxy support (needed for secure cookies in prod)
+/*
+ *  allows session to be environmentally aware.
+ *  production : deployed behand https and proxy. Specifically for heroku
+ *  development : no https, for localhost. as the name implies, for dev
+ */
+const isProd = process.env.NODE_ENV === "production";
+
+/* 
+ * Heroku provides reverse proxy support (needed for secure cookies in prod).
+ * Required for Express. It needs to know that the original request
+ * was https when behind Heroku load balancer.
+ * Without this, secure cookies may not be set.
+*/
 server.set('trust proxy', 1);
 
 // core middleware
@@ -38,6 +52,12 @@ server.use(helmet());
 server.use(express.json());
 
 // setting cors
+/*
+ * Required for cookie based auth when front end and backend are on different
+ * origins. In my case, heroku and vercel.
+ * origin must be explicit, not ('*')
+ * credentials must be true so cookies are sent.
+ */
 server.use(
     cors({
         origin: process.env.CLIENT_ORIGIN,
@@ -53,28 +73,69 @@ const pool = new pg.Pool({
 // session store
 const PgSession = connectPgSimple(session);
 
+
+
+
+
+/* 
+*  Session configuration (Postgres-backed)
+*  Uses connect-pg-simple to store sessions in Postgres
+*  so sessions survive restarts and scale across dynos.
+ */
 server.use(
     session({
         store: new PgSession({
             pool,
-            tableName: "session",
-            // pruneSessionInterval: 60 * 15, // optional: prune expired sessions every 15 min
+            tableName: "session", // stores sid + JSON session data
         }),
+
+        // Cookie name (avoid default 'connect.sid')
         name: "sid",
+
+        // Used to sign the session ID cookie
         secret: process.env.SESSION_SECRET,
-        resave: false,
+
+        // Do not save session if nothing was added to it
         saveUninitialized: false,
+
+        // Do not re-save session unless it changed
+        resave: false,
+
+        // Refresh session expiration on activity
         rolling: true,
+
+        // Tell express-session we are behind a proxy
+        // (important when using secure cookies on Heroku)
+        proxy: isProd,
+
+        // --------------------------------------------------
+        // Cookie settings
+        // --------------------------------------------------
         cookie: {
+            // Prevent JavaScript access to the cookie
+            // (mitigates XSS-based session theft)
             httpOnly: true,
-            sameSite: "lax",
-            secure: process.env.NODE_ENV === "production", // must be HTTPS in prod
-            maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+
+            // Cross-site cookie behavior:
+            // - "lax" works for same-site / local dev
+            // - "none" is required for Vercel ↔ Heroku
+            sameSite: isProd ? "none" : "lax",
+
+            // Required when sameSite = "none"
+            // Ensures cookie is only sent over HTTPS
+            secure: isProd,
+
+            // Absolute session lifetime (7 days)
+            maxAge: 1000 * 60 * 60 * 24 * 7,
         },
     })
 );
 
-//TODO - add routers once they are completed
+// routers to be mounted
+const authRouter = require('./auth/auth-router');
+
+// mount routers
+server.use('/api/auth', authRouter);
 
 
 

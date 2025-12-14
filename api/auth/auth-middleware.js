@@ -6,6 +6,23 @@
 * */
 
 const User = require('./auth-model');
+const BCRYPT = require('bcrypt');
+
+// rate limit for login
+const rateLimit = require('express-rate-limit');
+
+
+
+/*
+ * loginLimiter: reduce login attempts to reduce brute force attacks
+*/
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10,                  // 10 attempts per window per IP
+    standardHeaders: true,    // adds RateLimit-* headers
+    legacyHeaders: false,     // disables X-RateLimit-* headers
+    message: { message: "Too many login attempts. Please try again later." },
+})
 
 /*
  * checkForMissingCreds: check if there are missing username or password for a login or signup
@@ -27,10 +44,10 @@ const checkForMissingCreds = async (res, req, next) => {
 }
 
 /*
- * checkUsernameExists: check if the username provided exists in db already.
+ * validateUsername: check if the username provided exists in db already.
  * /signup middleware
  *  */
-const checkUsernameExists = async (res, req, next) => {
+const validateUsername = async (res, req, next) => {
 
     // get the username
     const { username } = req.body;
@@ -49,6 +66,7 @@ const checkUsernameExists = async (res, req, next) => {
 
 /*
  * requiredAuth: check authorization of user by checking their session
+ * /login middleware
  * */
 const requiredAuthorization = async (req, res, next) => {
 
@@ -61,9 +79,61 @@ const requiredAuthorization = async (req, res, next) => {
     next();
 }
 
+/*
+ * checkUsernameExists: check if the username exists. Used for logging in
+ * /login middleware
+ */
+const checkUsernameExists = async (res, req, next) => {
+
+    // get the username
+    const { username } = req.body;
+
+    // look in the db for the username
+    const userCreds = await User.findExistingUsername(username);
+
+    //check if the db is successful
+    if (userCreds) {
+        // success! continue
+        req.userCreds = userCreds;
+        next();
+    }
+    return res.status(400).json({ message: 'username/password does not exist' });
+
+}
+
+/*
+ * validatePassword: validate the password with provided password
+ * /login middleware
+ */
+const validatePassword = async (res, req, next) => {
+
+    const { username,
+        password
+    } = req.body;
+
+    // retrieve hashed password
+    const userCreds = await User.findByUsername(username);
+
+    // validate password via bcrypt
+    const encryption = await BCRYPT.compare(password, userCreds.password);
+
+    // check if db op and password validation successful
+    if (userCreds && encryption) {
+
+        next();
+    }
+
+    return res.status(400).json({ message: 'username/password does not exist' });
+
+}
+
+
 
 module.exports = {
     checkForMissingCreds,
+    validateUsername,
     checkUsernameExists,
-    requiredAuthorization
+    requiredAuthorization,
+    validatePassword,
+    loginLimiter
 }
