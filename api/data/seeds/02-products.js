@@ -57,7 +57,42 @@ const products = [
         quantity: 1,
         product_type: 'book',
         product_desc: 'Rare collection of little known manga - Fire Force!'
+    },
+    {
+        /*
+         * attribution: https://pillowhubglobal.com/cdn/shop/files/3_8b05cc50-f111-4af4-b16c-8027d0655f84_1440x1440.png?v=1745402172
+         */
+        name: 'Overlord Albedo Dakimakura',
+        cost: 40.00,
+        image_url: 'https://pillowhubglobal.com/cdn/shop/files/3_8b05cc50-f111-4af4-b16c-8027d0655f84_1440x1440.png?v=1745402172',
+        quantity: 3,
+        product_type: 'pillow',
+        product_desc: 'New import of Albedo version of Overlord Dakimakura! Show Albedo all your love!'
+    },
+    {
+        /*
+         * attribution:https://pillowhubglobal.com/cdn/shop/products/2b-nier-automata-body-pillow-cover-my-store-50x150-peach-skin-790121_1440x1440.jpg?v=1706832676
+         */
+        name: 'Nier Automata 2B Dakimakura',
+        cost: 50.00,
+        image_url: 'https://pillowhubglobal.com/cdn/shop/products/2b-nier-automata-body-pillow-cover-my-store-50x150-peach-skin-790121_1440x1440.jpg?v=1706832676',
+        quantity: 2,
+        product_type: 'pillow',
+        product_desc: "Beautiful 2B Dakimakura pillow guaranteed you don't leave your gooncave! :)"
+    },
+    {
+        /*
+         * attribution:Photo by <a href="https://unsplash.com/@possessedphotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Possessed Photography</a> on <a href="https://unsplash.com/photos/red-and-white-nintendo-family-computer-console-DDHNI1Y4wm8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      
+         */
+        name: 'Imported FAMICOM',
+        cost: 200.00,
+        image_url: 'https://images.unsplash.com/photo-1516111143745-fbfc2ebd6352?q=80&w=850&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        quantity: 1,
+        product_type: 'console',
+        product_desc: 'Japanese FAMICOM newly imported and complete. Comes with two Japanese games.'
     }
+
 
 ]
 
