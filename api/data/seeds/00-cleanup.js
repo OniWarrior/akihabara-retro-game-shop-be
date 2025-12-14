@@ -1,13 +1,15 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
-exports.seed = async function(knex) {
+/*
+ * Author: Stephen Aranda
+ * File  : 00-cleanup.js
+ * Desc  : nukes dp of all data in the event knex seed:run to clean db.
+ * */
+
+// const for knex cleaner
+const cleaner = require('knex-cleaner');
+
+exports.seed = function (knex) {
   // Deletes ALL existing entries
-  await knex('table_name').del()
-  await knex('table_name').insert([
-    {id: 1, colName: 'rowValue1'},
-    {id: 2, colName: 'rowValue2'},
-    {id: 3, colName: 'rowValue3'}
-  ]);
+  return cleaner.clean(knex, {
+    ignoreTables: ['knex_migrations', 'knex_migrations_lock']
+  })
 };
