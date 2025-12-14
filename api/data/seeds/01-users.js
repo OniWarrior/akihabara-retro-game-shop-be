@@ -34,5 +34,8 @@ users.forEach(user => {
     // hash the passwords
     const hashedPassword = bcrypt.hashSync(user.password, rounds);
 
+    // assigned hashed password to user password
+    user.password = hashedPassword;
+
 
 });
