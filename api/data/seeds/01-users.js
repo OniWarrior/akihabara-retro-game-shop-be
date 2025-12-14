@@ -37,5 +37,9 @@ users.forEach(user => {
     // assigned hashed password to user password
     user.password = hashedPassword;
 
-
 });
+
+// insert into the db
+exports.seed = function (knex) {
+    return knex('users').insert(users)
+}
