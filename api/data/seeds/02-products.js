@@ -85,12 +85,24 @@ const products = [
          * attribution:Photo by <a href="https://unsplash.com/@possessedphotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Possessed Photography</a> on <a href="https://unsplash.com/photos/red-and-white-nintendo-family-computer-console-DDHNI1Y4wm8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
       
          */
-        name: 'Imported FAMICOM',
+        name: 'Japanese FAMICOM',
         cost: 200.00,
         image_url: 'https://images.unsplash.com/photo-1516111143745-fbfc2ebd6352?q=80&w=850&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         quantity: 1,
         product_type: 'console',
         product_desc: 'Japanese FAMICOM newly imported and complete. Comes with two Japanese games.'
+    },
+    {
+        /*
+         * attribution:Photo by <a href="https://unsplash.com/@trin_wa?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">TRIN WA</a> on <a href="https://unsplash.com/photos/a-yellow-computer-on-a-table-F6J2YEy6U8A?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      
+         * */
+        name: 'Japanese Gameboy Advance',
+        cost: 300.00,
+        image_url: 'https://images.unsplash.com/photo-1652197881268-d625ad54402b?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        quantity: 2,
+        product_type: 'console',
+        product_desc: 'Japanese import of Gameboy Advance! Comes with three games'
     }
 
 
