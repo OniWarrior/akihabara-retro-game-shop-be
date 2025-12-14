@@ -66,6 +66,7 @@ const validateUsername = async (res, req, next) => {
 
 /*
  * requiredAuth: check authorization of user by checking their session
+ * /login middleware
  * */
 const requiredAuthorization = async (req, res, next) => {
 
@@ -88,11 +89,12 @@ const checkUsernameExists = async (res, req, next) => {
     const { username } = req.body;
 
     // look in the db for the username
-    const foundUsername = await User.findExistingUsername(username);
+    const userCreds = await User.findExistingUsername(username);
 
     //check if the db is successful
-    if (foundUsername) {
+    if (userCreds) {
         // success! continue
+        req.userCreds = userCreds;
         next();
     }
     return res.status(400).json({ message: 'username/password does not exist' });
@@ -117,6 +119,7 @@ const validatePassword = async (res, req, next) => {
 
     // check if db op and password validation successful
     if (userCreds && encryption) {
+
         next();
     }
 
