@@ -4,9 +4,13 @@
  * Desc   : file that contains the seed information for dummy users that will be added to db.
  */
 
+// used for hashing the password of the dummy users prior to insertion.
 const bcrypt = require('bcrypt');
 
+// import env vars
+require('dotenv').config()
 
+// dummy users
 const users = [
     {
         username: 'hello_there_123',
@@ -19,3 +23,16 @@ const users = [
         user_type: 'Manager'
     }
 ]
+
+// iterate through array and hash passwords.
+users.forEach(user => {
+
+
+    // ensure rounds is not a string
+    const rounds = parseInt(process.env.ROUNDS);
+
+    // hash the passwords
+    const hashedPassword = bcrypt.hashSync(user.password, rounds);
+
+
+});
