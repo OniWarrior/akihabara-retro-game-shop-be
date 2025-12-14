@@ -45,6 +45,18 @@ const products = [
         product_type: 'book',
         product_desc: "It's One Piece! Volume 31 manga in Luffy's adventure to find the One Piece!"
 
+    },
+    {
+        /*
+         * attribution: Photo by <a href="https://unsplash.com/@branden_skeli?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Branden Skeli</a> on <a href="https://unsplash.com/photos/a-person-painting-a-picture-NIO1ZDB5kL0?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      
+         */
+        name: 'Fire Force Collection: Vol 4,7,5,16,25',
+        cost: 200.00,
+        image_url: 'https://images.unsplash.com/photo-1666153184660-a09d73e5b755?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        quantity: 1,
+        product_type: 'book',
+        product_desc: 'Rare collection of little known manga - Fire Force!'
     }
 
 ]
