@@ -20,6 +20,18 @@ const products = [
         quantity: 5,
         product_type: 'figurine',
         product_desc: 'An amusing funko pop of Yamcha; the lamest DBZ fighter!'
+    },
+    {
+        /*
+         * attribution: Photo by <a href="https://unsplash.com/@dylhunter?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Dylan Hunter</a> on <a href="https://unsplash.com/photos/red-and-blue-robot-holding-weapon-vSiE9-jN2wo?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      
+         */
+        name: 'RX-78 Gundam Figure',
+        cost: 50.00,
+        image_url: 'https://images.unsplash.com/photo-1626450429795-a3ba2964ef7f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        quantity: 3,
+        product_type: 'figurine',
+        product_desc: 'Freaking amazing Gundam figure firing BFG!'
     }
 
 ]
