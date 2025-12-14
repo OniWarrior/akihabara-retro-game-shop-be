@@ -7,11 +7,13 @@
 const {
     requiredAuthorization,
     checkForMissingCreds,
-    checkUsernameExists
+    checkUsernameExists,
+    loginLimiter,
+    validatePassword
 
 } = require('./auth-middleware');
 
-const bcrypt = require('bcrypt');
+
 const router = require('express').Router();
 
 
@@ -38,8 +40,30 @@ router.post('/logout', checkForMissingCreds, requiredAuthorization, async (req, 
 /*
  * /login: logs in the user with provided credentials
  */
-router.post('/login', checkForMissingCreds, requiredAuthorization, async (req, res) => {
+router.post('/login', checkForMissingCreds, requiredAuthorization, checkUsernameExists, validatePassword, loginLimiter, async (req, res) => {
     try {
+
+
+
+        // check for session error
+        req.session.regenerate((err) => {
+            if (err) {
+                console.error("Session regeneration error: ", err)
+                return res.status(500).json({ message: 'Authentication failed' })
+            }
+
+            // set the session object
+            req.session.user = {
+                user_id: req.userCreds.user_id,
+                username: req.userCreds.username
+
+            }
+
+        })
+
+        // if this point is reached, then return success response
+        return res.status(200).json({ message: 'Logged In' });
+
 
     } catch (err) {
         // failure response
