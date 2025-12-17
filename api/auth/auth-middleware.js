@@ -218,6 +218,12 @@ const checkForMissingPasswords = async (req, res, next) => {
     // get the new password and the new password match
     const { newPassword, confirmPassword } = req.body;
 
+    // get the username from session obj
+    const { username } = req.session.user;
+
+    // find user credentials
+    const user = await User.findByUsername(username);
+
 
 }
 
