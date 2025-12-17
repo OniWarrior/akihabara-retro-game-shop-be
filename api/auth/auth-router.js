@@ -10,7 +10,8 @@ const {
     checkUsernameExists,
     loginLimiter,
     validatePassword,
-    requiredCSRF
+    requiredCSRF,
+    checkForMissingPasswords
 
 } = require('./auth-middleware');
 
@@ -23,6 +24,11 @@ const router = require('express').Router();
 /*
  * /change-password: endpoint that will change the password for a user.
  */
+router.post('/change-password', requiredAuthorization, checkForMissingPasswords, async (req, res) => {
+
+
+
+})
 
 /*
  * (Public) /status: endpoint that tests whether a session is created at login.
