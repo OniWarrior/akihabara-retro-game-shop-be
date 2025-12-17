@@ -9,3 +9,6 @@ const router = require('express').Router();
 const authRouter = require('./auth/auth-router');
 
 // TODO-add other routers when completed
+
+// mount auth router
+router.use('/auth', authRouter);
