@@ -11,7 +11,9 @@ const {
     loginLimiter,
     validatePassword,
     requiredCSRF,
-    checkForMissingPasswords
+    checkForMissingPasswords,
+    checkIfUserExists,
+    updatePassword
 
 } = require('./auth-middleware');
 
@@ -24,7 +26,28 @@ const router = require('express').Router();
 /*
  * /change-password: endpoint that will change the password for a user.
  */
-router.post('/change-password', requiredAuthorization, checkForMissingPasswords, async (req, res) => {
+router.post('/change-password', requiredAuthorization, checkForMissingPasswords, checkIfUserExists, updatePassword, async (req, res) => {
+
+    try {
+
+        // Destroy current session explicitly
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(500).json({
+                    message: "Password updated, but logout failed",
+                });
+            }
+
+            res.clearCookie("sid");
+            return res.status(200).json({
+                message: "Password updated. Please log in again.",
+            });
+        });
+
+    } catch (err) {
+        // failure response
+        return res.status(500).json({ message: `Server Error ${err.message}` });
+    }
 
 
 
