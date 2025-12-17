@@ -160,8 +160,8 @@ const requiredAuthorization = async (req, res, next) => {
 }
 
 /*
- * checkUsernameExists: check if the username exists. Used for logging in
- * /login middleware
+ * checkUsernameExists: check if the username exists. 
+ * /login  middleware
  */
 const checkUsernameExists = async (res, req, next) => {
 
@@ -218,25 +218,86 @@ const checkForMissingPasswords = async (req, res, next) => {
     // get the new password and the new password match
     const { newPassword, confirmPassword } = req.body;
 
-    // get the username from session obj
-    const { username } = req.session.user;
-
-    // find current user credentials
-    const user = await User.findByUsername(username);
-
-    // check if user was found
-    if (!user) {
-        // user not found send failure response
-        return res.status(404).json({ message: 'User was not found!' });
+    if (!newPassword || !confirmPassword ||
+        username === '' || password === '') {
+        return res.status(400).json({ message: 'Missing credentials' });
     }
 
-    // otherwise, continue
-    req.userCreds = user;
+    // otherwise continue.
     next();
 
 
 }
 
+/*
+ * checkIfUserExists: check if the user exists in db
+ */
+
+const checkIfUserExists = async (req, res, next) => {
+
+    // get the username if any from the session obj
+    const { username } = req.session.user;
+
+    // try to find user
+    const user = await User.findByUsername(username);
+
+    // check if user found
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    // otherwise continue
+    next()
+}
+
+
+/*
+ * updatePassword: updates the current password of new user in the db
+ *
+ *  */
+const updatePassword = async (req, res, next) => {
+
+    try {
+
+
+
+        // Compare plaintext password to stored hash
+        const valid = await BCRYPT.compare(currentPassword, user.password);
+        if (!valid) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
+        // Hash new password
+        const newHash = await bcrypt.hash(newPassword, 12);
+
+        await db("users")
+            .where({ user_id })
+            .update({ password: newHash });
+
+        //  Kill all sessions for this user (all devices)
+        await revokeAllUserSessions(user_id);
+
+        // Destroy current session explicitly
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(500).json({
+                    message: "Password updated, but logout failed",
+                });
+            }
+
+            res.clearCookie("sid");
+            return res.json({
+                message: "Password updated. Please log in again.",
+            });
+        });
+
+    }
+    catch (err) {
+        next(err);
+    }
+
+
+}
 
 module.exports = {
     checkForMissingCreds,
@@ -248,5 +309,6 @@ module.exports = {
     getOrCreateCSRFToken,
     isSafeOrEqual,
     requiredCSRF,
-    checkForMissingPasswords
+    checkForMissingPasswords,
+    checkIfUserExists
 }
