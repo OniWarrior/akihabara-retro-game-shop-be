@@ -12,3 +12,5 @@ const authRouter = require('./auth/auth-router');
 
 // mount auth router
 router.use('/auth', authRouter);
+
+module.exports = router;
