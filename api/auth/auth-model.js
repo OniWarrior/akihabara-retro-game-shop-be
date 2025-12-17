@@ -6,7 +6,17 @@
 
 const db = require('../data/dbConfig');
 
-
+/*
+ * revokeAllUserSessions: query that destroys all sessions of user
+ */
+const revokeAllUserSessions = async (userId) => {
+    // session.sess is JSON; user id stored at sess.user.id
+    // #>> extracts a text value at a JSON path in Postgres
+    const destroyedSession = db("session")
+        .whereRaw(`sess #>> '{user,id}' = ?`, [String(userId)])
+        .del();
+    return destroyedSession;
+}
 
 /*
  * findExistingUsername: search for existing username using username parameter
@@ -32,5 +42,6 @@ const findByUsername = async (username) => {
 
 module.exports = {
     findExistingUsername,
-    findByUsername
+    findByUsername,
+    revokeAllUserSessions
 }
