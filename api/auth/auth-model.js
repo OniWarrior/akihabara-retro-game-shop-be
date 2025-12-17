@@ -13,7 +13,7 @@ const revokeAllUserSessions = async (userId) => {
     // session.sess is JSON; user id stored at sess.user.id
     // #>> extracts a text value at a JSON path in Postgres
     const destroyedSession = db("session")
-        .whereRaw(`sess #>> '{user,id}' = ?`, [String(userId)])
+        .whereRaw(`sess #>> '{user,user_id}' = ?`, [String(userId)])
         .del();
     return destroyedSession;
 }
