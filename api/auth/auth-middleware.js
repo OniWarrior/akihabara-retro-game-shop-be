@@ -221,8 +221,14 @@ const checkForMissingPasswords = async (req, res, next) => {
     // get the username from session obj
     const { username } = req.session.user;
 
-    // find user credentials
+    // find current user credentials
     const user = await User.findByUsername(username);
+
+    // check if user was found
+    if (!user) {
+        // user not found send failure response
+        return res.status(404).json({ message: 'User was not found!' });
+    }
 
 
 }
