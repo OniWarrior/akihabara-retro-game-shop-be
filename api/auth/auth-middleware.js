@@ -45,6 +45,15 @@ const isSafeOrEqual = (a, b) => {
     if (typeof a !== 'string' || typeof b !== 'string') {
         return false;
     }
+
+    // create buffers for params
+    const aBuffer = Buffer.from(a);
+    const bBuffer = Buffer.from(b);
+
+    // check the buffer lengths against each other
+    if (aBuffer.length !== bBuffer.length) {
+        return false;
+    }
 }
 
 
