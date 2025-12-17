@@ -208,6 +208,19 @@ const validatePassword = async (res, req, next) => {
 }
 
 
+/*
+ * checkForMissingPasswords: Check for a missing password and confirm password
+ * /change-password middleware
+ */
+const checkForMissingPasswords = async (req, res, next) => {
+
+    // get the passwords from the body
+    // get the new password and the new password match
+    const { newPassword, confirmPassword } = req.body;
+
+
+}
+
 
 module.exports = {
     checkForMissingCreds,
