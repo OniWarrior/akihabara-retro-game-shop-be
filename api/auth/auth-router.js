@@ -20,7 +20,9 @@ const Auth = required('./auth-model');
 
 const router = require('express').Router();
 
-
+/*
+ * /change-password: endpoint that will change the password for a user.
+ */
 
 /*
  * (Public) /status: endpoint that tests whether a session is created at login.
