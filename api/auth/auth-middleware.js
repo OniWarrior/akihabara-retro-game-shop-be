@@ -54,6 +54,8 @@ const isSafeOrEqual = (a, b) => {
     if (aBuffer.length !== bBuffer.length) {
         return false;
     }
+
+    return crypto.timingSafeEqual(aBuffer, bBuffer);
 }
 
 
