@@ -12,6 +12,29 @@ const BCRYPT = require('bcrypt');
 const rateLimit = require('express-rate-limit');
 
 
+const crypto = require('crypto');
+
+/*
+ * getOrCreateCSRFToken: create or return CSRF token stored in session
+ */
+
+const getOrCreateCSRFToken = (req) => {
+    // check if you have a session
+    if (!req.session) {
+        return null; //return null if no session is present
+
+    }
+
+    // check if there's a csrf token
+    if (!req.session.csrfToken) {   // convert to hex string
+        // 32 bytes => 64 hex chars
+        req.session.csrfToken = crypto.randomBytes(32).toString("hex");
+    }
+
+    // return token
+    return req.session.csrfToken;
+}
+
 
 /*
  * loginLimiter: reduce login attempts to reduce brute force attacks
