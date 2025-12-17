@@ -71,6 +71,12 @@ const requiredCSRF = (req, res, next) => {
         return next();
     }
 
+    // must have a session
+    if (!req.session) {
+        // return failed response if no session is present
+        return res.status(403).json({ message: "CSRF check failed (no session)" });
+    }
+
 
 }
 
