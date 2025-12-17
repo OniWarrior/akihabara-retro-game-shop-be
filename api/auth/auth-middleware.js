@@ -12,6 +12,86 @@ const BCRYPT = require('bcrypt');
 const rateLimit = require('express-rate-limit');
 
 
+const crypto = require('crypto');
+
+/*
+ * getOrCreateCSRFToken: create or return CSRF token stored in session
+ */
+
+const getOrCreateCSRFToken = (req) => {
+    // check if you have a session
+    if (!req.session) {
+        return null; //return null if no session is present
+
+    }
+
+    // check if there's a csrf token
+    if (!req.session.csrfToken) {   // convert to hex string
+        // 32 bytes => 64 hex chars
+        req.session.csrfToken = crypto.randomBytes(32).toString("hex");
+    }
+
+    // return token
+    return req.session.csrfToken;
+}
+
+/*
+ * isSafeOrEqual: constant-time comparison to avoid timing attacks 
+ */
+
+const isSafeOrEqual = (a, b) => {
+
+    // check for string type
+    if (typeof a !== 'string' || typeof b !== 'string') {
+        return false;
+    }
+
+    // create buffers for params
+    const aBuffer = Buffer.from(a);
+    const bBuffer = Buffer.from(b);
+
+    // check the buffer lengths against each other
+    if (aBuffer.length !== bBuffer.length) {
+        return false;
+    }
+
+    return crypto.timingSafeEqual(aBuffer, bBuffer);
+}
+
+/*
+ * requiredCSRF: require valid CSRF token for state-changing methods
+ */
+const requiredCSRF = (req, res, next) => {
+
+    // convert method to upper case
+    const method = req.method.toUpperCase();
+
+    // Safe methods do not require CSRF checks-move forward
+    if (method === "GET" || method === "HEAD" || method === "OPTIONS") {
+        return next();
+    }
+
+    // must have a session
+    if (!req.session) {
+        // return failed response if no session is present
+        return res.status(403).json({ message: "CSRF check failed (no session)" });
+    }
+
+    // expected token in session
+    const expected = req.session.csrfToken;
+
+    // provided token in header
+    const provided = req.get("X-CSRF-Token"); // header name
+
+    // compare expected and provided tokens
+    if (!expected || !provided || !safeEqual(expected, provided)) {
+        return res.status(403).json({ message: "CSRF token invalid or missing" });
+    }
+
+    next();
+
+
+}
 
 /*
  * loginLimiter: reduce login attempts to reduce brute force attacks
@@ -135,5 +215,8 @@ module.exports = {
     checkUsernameExists,
     requiredAuthorization,
     validatePassword,
-    loginLimiter
+    loginLimiter,
+    getOrCreateCSRFToken,
+    isSafeOrEqual,
+    requiredCSRF
 }
