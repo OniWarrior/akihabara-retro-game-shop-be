@@ -9,12 +9,18 @@ const {
     checkForMissingCreds,
     checkUsernameExists,
     loginLimiter,
-    validatePassword
+    validatePassword,
+    requiredCSRF
 
 } = require('./auth-middleware');
 
+const bcrypt = required('bcrypt');
+
+const Auth = required('./auth-model');
 
 const router = require('express').Router();
+
+
 
 /*
  * (Public) /status: endpoint that tests whether a session is created at login.
