@@ -61,6 +61,11 @@ const isSafeOrEqual = (a, b) => {
 /*
  * requiredCSRF: require valid CSRF token for state-changing methods
  */
+const requiredCSRF = (req, res, next) => {
+
+    // convert method to upper case
+    const method = req.method.toUpperCase();
+}
 
 /*
  * loginLimiter: reduce login attempts to reduce brute force attacks
