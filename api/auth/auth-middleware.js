@@ -247,5 +247,6 @@ module.exports = {
     loginLimiter,
     getOrCreateCSRFToken,
     isSafeOrEqual,
-    requiredCSRF
+    requiredCSRF,
+    checkForMissingPasswords
 }
