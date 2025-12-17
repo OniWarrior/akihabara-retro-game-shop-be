@@ -216,5 +216,7 @@ module.exports = {
     requiredAuthorization,
     validatePassword,
     loginLimiter,
-    getOrCreateCSRFToken
+    getOrCreateCSRFToken,
+    isSafeOrEqual,
+    requiredCSRF
 }
