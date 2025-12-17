@@ -39,6 +39,14 @@ const getOrCreateCSRFToken = (req) => {
  * isSafeOrEqual: constant-time comparison to avoid timing attacks 
  */
 
+const isSafeOrEqual = (a, b) => {
+
+    // check for string type
+    if (typeof a !== 'string' || typeof b !== 'string') {
+        return false;
+    }
+}
+
 
 /*
  * loginLimiter: reduce login attempts to reduce brute force attacks
