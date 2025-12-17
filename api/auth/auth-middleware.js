@@ -276,19 +276,7 @@ const updatePassword = async (req, res, next) => {
         //  Kill all sessions for this user (all devices)
         const killedSessions = await User.revokeAllUserSessions(user_id);
 
-        // Destroy current session explicitly
-        req.session.destroy((err) => {
-            if (err) {
-                return res.status(500).json({
-                    message: "Password updated, but logout failed",
-                });
-            }
 
-            res.clearCookie("sid");
-            return res.json({
-                message: "Password updated. Please log in again.",
-            });
-        });
 
         // check if all db ops succeeded
         if (newHash && updatedUser && killedSessions) {
