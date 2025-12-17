@@ -35,6 +35,10 @@ const getOrCreateCSRFToken = (req) => {
     return req.session.csrfToken;
 }
 
+/*
+ * isSafeOrEqual: constant-time comparison to avoid timing attacks 
+ */
+
 
 /*
  * loginLimiter: reduce login attempts to reduce brute force attacks
@@ -158,5 +162,6 @@ module.exports = {
     checkUsernameExists,
     requiredAuthorization,
     validatePassword,
-    loginLimiter
+    loginLimiter,
+    getOrCreateCSRFToken
 }
