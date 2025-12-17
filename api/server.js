@@ -8,6 +8,11 @@
 // importing the use of env vars
 require('dotenv').config();
 
+// const for api-router
+const apiRouter = require('./api-router');
+
+const { requiredCSRF } = require('./auth/auth-middleware');
+
 // const for express server app
 const express = require('express');
 
@@ -131,11 +136,10 @@ server.use(
     })
 );
 
-// routers to be mounted
-const authRouter = require('./auth/auth-router');
+
 
 // mount routers
-server.use('/api/auth', authRouter);
+server.use('/api', requiredCSRF, apiRouter);
 
 
 

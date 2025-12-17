@@ -160,8 +160,8 @@ const requiredAuthorization = async (req, res, next) => {
 }
 
 /*
- * checkUsernameExists: check if the username exists. Used for logging in
- * /login middleware
+ * checkUsernameExists: check if the username exists. 
+ * /login  middleware
  */
 const checkUsernameExists = async (res, req, next) => {
 
@@ -208,6 +208,89 @@ const validatePassword = async (res, req, next) => {
 }
 
 
+/*
+ * checkForMissingPasswords: Check for a missing password and confirm password
+ * /change-password middleware
+ */
+const checkForMissingPasswords = async (req, res, next) => {
+
+    // get the passwords from the body
+    // get the new password and the new password match
+    const { newPassword, confirmPassword } = req.body;
+
+    if (!newPassword || !confirmPassword ||
+        username === '' || password === '') {
+        return res.status(400).json({ message: 'Missing credentials' });
+    }
+
+    // otherwise continue.
+    next();
+
+
+}
+
+/*
+ * checkIfUserExists: check if the user exists in db
+ */
+
+const checkIfUserExists = async (req, res, next) => {
+
+    // get the username if any from the session obj
+    const { username } = req.session.user;
+
+    // try to find user
+    const user = await User.findByUsername(username);
+
+    // check if user found
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    // otherwise continue
+    next()
+}
+
+
+/*
+ * updatePassword: updates the current password of new user in the db
+ *
+ *  */
+const updatePassword = async (req, res, next) => {
+
+    try {
+
+        // get new password
+        const { newPassword } = req.body;
+
+        // hash the new password
+        const rounds = parseInt(process.env.ROUNDS);
+        const newHash = await BCRYPT.hash(newPassword, rounds);
+
+
+        // update current user's password using username to find user record
+        const { username, user_id } = req.session.user;
+
+        const updatedUser = await User.updatePassword(username, newHash);
+
+
+        //  Kill all sessions for this user (all devices)
+        const killedSessions = await User.revokeAllUserSessions(user_id);
+
+
+
+        // check if all db ops succeeded
+        if (newHash && updatedUser && killedSessions) {
+            // succeeded continue
+            next()
+        }
+
+    }
+    catch (err) {
+        next(err);
+    }
+
+
+}
 
 module.exports = {
     checkForMissingCreds,
@@ -218,5 +301,8 @@ module.exports = {
     loginLimiter,
     getOrCreateCSRFToken,
     isSafeOrEqual,
-    requiredCSRF
+    requiredCSRF,
+    checkForMissingPasswords,
+    checkIfUserExists,
+    updatePassword
 }
