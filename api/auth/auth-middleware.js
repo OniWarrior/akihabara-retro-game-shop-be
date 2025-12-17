@@ -58,6 +58,9 @@ const isSafeOrEqual = (a, b) => {
     return crypto.timingSafeEqual(aBuffer, bBuffer);
 }
 
+/*
+ * requiredCSRF: require valid CSRF token for state-changing methods
+ */
 
 /*
  * loginLimiter: reduce login attempts to reduce brute force attacks
