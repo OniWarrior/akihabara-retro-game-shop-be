@@ -65,6 +65,13 @@ const requiredCSRF = (req, res, next) => {
 
     // convert method to upper case
     const method = req.method.toUpperCase();
+
+    // Safe methods do not require CSRF checks-move forward
+    if (method === "GET" || method === "HEAD" || method === "OPTIONS") {
+        return next();
+    }
+
+
 }
 
 /*
