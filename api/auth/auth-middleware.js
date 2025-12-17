@@ -77,6 +77,17 @@ const requiredCSRF = (req, res, next) => {
         return res.status(403).json({ message: "CSRF check failed (no session)" });
     }
 
+    // expected token in session
+    const expected = req.session.csrfToken;
+
+    // provided token in header
+    const provided = req.get("X-CSRF-Token"); // header name
+
+    // compare expected and provided tokens
+    if (!expected || !provided || !safeEqual(expected, provided)) {
+        return res.status(403).json({ message: "CSRF token invalid or missing" });
+    }
+
 
 }
 
