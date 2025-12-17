@@ -40,8 +40,20 @@ const findByUsername = async (username) => {
     return foundPassword
 }
 
+/*
+ * updateUserPassword: update the password of user using username and password params
+ */
+const updatePassword = async (username, password) => {
+    const updatedPassword = await db('users')
+        .returning('username', 'password')
+        .update({ password: password })
+        .where('username', username)
+    return updatedPassword
+}
+
 module.exports = {
     findExistingUsername,
     findByUsername,
-    revokeAllUserSessions
+    revokeAllUserSessions,
+    updatePassword
 }
