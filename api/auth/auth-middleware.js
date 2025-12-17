@@ -259,23 +259,22 @@ const updatePassword = async (req, res, next) => {
 
     try {
 
+        // get new password
+        const { newPassword } = req.body;
+
+        // hash the new password
+        const rounds = parseInt(process.env.ROUNDS);
+        const newHash = await BCRYPT.hash(newPassword, rounds);
 
 
-        // Compare plaintext password to stored hash
-        const valid = await BCRYPT.compare(currentPassword, user.password);
-        if (!valid) {
-            return res.status(401).json({ message: "Invalid credentials" });
-        }
+        // update current user's password using username to find user record
+        const { username, user_id } = req.session.user;
 
-        // Hash new password
-        const newHash = await bcrypt.hash(newPassword, 12);
+        const updatedUser = await User.updatePassword(username, newHash);
 
-        await db("users")
-            .where({ user_id })
-            .update({ password: newHash });
 
         //  Kill all sessions for this user (all devices)
-        await revokeAllUserSessions(user_id);
+        const killedSessions = await User.revokeAllUserSessions(user_id);
 
         // Destroy current session explicitly
         req.session.destroy((err) => {
@@ -290,6 +289,12 @@ const updatePassword = async (req, res, next) => {
                 message: "Password updated. Please log in again.",
             });
         });
+
+        // check if all db ops succeeded
+        if (newHash && updatedUser && killedSessions) {
+            // succeeded continue
+            next()
+        }
 
     }
     catch (err) {
@@ -310,5 +315,6 @@ module.exports = {
     isSafeOrEqual,
     requiredCSRF,
     checkForMissingPasswords,
-    checkIfUserExists
+    checkIfUserExists,
+    updatePassword
 }
