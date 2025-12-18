@@ -17,4 +17,19 @@
 | GET             | `/api/auth/status`          | Tests for session creation at login |
 | GET             | `/api/auth/me`              | Tests authorization middleware    |
 
+## Middleware
 
+|**Auth Middleware**|**Description**|
+|--------------|----------------------------------------------------------------------|
+| getOrCreateCSRFToken(req)    | get or create CSRF token                             |
+| isSafeOrEqual(a,b)           | prevents timing attacks                              |
+| requiredCSRF(req, res, next) | require valid CSRF token for state-changing methods  |
+| loginLimiter                 | limits login attempts to prevent Brute force attacks |
+| checkForMissingCreds(req,res,next) | checks for missing username and password       |
+| validateUsername(req,res,next)   | checks if username already exists in db when creating account |
+| requiredAuthorization(req,res,next) | checks session for authorization when user logs in |
+| checksUsernameExists(res,req,next)  | checks if username exists when logging in     |
+| validatePassword(res,req,next)      | validates password of user when logging in    |
+| checkForMissingPasswords(req,res,next) | checks for missing new and confirm password |
+| checkIfUserExists(req,res,next) | Checks session table, then db to confirm user exists |
+| updatePassword(req,res,next)    | Performs ops that update current password of user in db |
