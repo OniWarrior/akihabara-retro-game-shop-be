@@ -146,6 +146,17 @@ router.post('/login', checkForMissingCreds, requiredAuthorization, checkUsername
 router.post('/signup', checkForMissingCreds, validateUsername, async (req, res) => {
     try {
 
+        // retrieve username and password from req.body
+        const {
+            username,
+            password
+        } = req.body;
+
+        // create user record obj
+        const userCreds = {
+            username: username
+        }
+
 
     } catch (err) {
         // failure response
