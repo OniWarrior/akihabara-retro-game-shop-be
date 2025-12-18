@@ -51,9 +51,21 @@ const updatePassword = async (username, password) => {
     return updatedPassword
 }
 
+/*
+ * addUser: adds a new user into the database using user param
+ */
+const addUser = async (user) => {
+    const addedUser = await db('users')
+        .insert(user)
+        .returning('user_id', 'username', 'password', 'user_type')
+    return addedUser
+}
+
 module.exports = {
     findExistingUsername,
     findByUsername,
     revokeAllUserSessions,
-    updatePassword
+    updatePassword,
+    addUser
+
 }

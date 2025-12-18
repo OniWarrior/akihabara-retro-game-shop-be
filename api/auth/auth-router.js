@@ -4,6 +4,7 @@
  * Desc  : File that contains the endpoints for login and signup
  * */
 
+const { hash } = require('bcrypt');
 const {
     requiredAuthorization,
     checkForMissingCreds,
@@ -13,7 +14,8 @@ const {
     requiredCSRF,
     checkForMissingPasswords,
     checkIfUserExists,
-    updatePassword
+    updatePassword,
+    validateUsername
 
 } = require('./auth-middleware');
 
@@ -136,6 +138,48 @@ router.post('/login', checkForMissingCreds, requiredAuthorization, checkUsername
         // failure response
         return res.status(500).json({ message: `Server Error ${err.message}` });
     }
+})
+
+
+/*
+ * /signup: endpoint that facitilates the creation of a new account for a new user
+ */
+router.post('/signup', checkForMissingCreds, validateUsername, async (req, res) => {
+    try {
+
+        // retrieve username and password from req.body
+        const {
+            username,
+            password
+        } = req.body;
+
+        // hash password
+        const rounds = parseInt(process.env.ROUNDS);
+        const hashedPassword = await bcrypt.hash(password, rounds);
+
+        // create user record obj
+        const userCreds = {
+            username: username,
+            password: hashedPassword,
+            user_type: "Customer"
+        }
+
+        // Insert into the database
+        const addedUser = await Auth.addUser(userCreds);
+
+        // check if insertion succeeded
+        if (addedUser) {
+            //success
+            return res.status(201).json({ message: `Account successfully created!` });
+        }
+
+
+    } catch (err) {
+        // failure response
+        return res.status(500).json({ message: `Server Error: ${err.message}` });
+
+    }
+
 })
 
 module.exports = router;
