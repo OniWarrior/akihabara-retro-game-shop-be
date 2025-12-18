@@ -33,3 +33,12 @@
 | checkForMissingPasswords(req,res,next) | checks for missing new and confirm password |
 | checkIfUserExists(req,res,next) | Checks session table, then db to confirm user exists |
 | updatePassword(req,res,next)    | Performs ops that update current password of user in db |
+
+## Queries
+|**Auth model**|**Description**|
+|--------------|---------------|
+| revokeAllUserSessions(userId)     | Destroy all sessions of user |
+| findExistingUsername(username)    | Search for existing username |
+| findByUsername(username)          | Search for password using username |
+| updatePassword(username,password) | Update current password of user    |
+
