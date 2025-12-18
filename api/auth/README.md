@@ -7,12 +7,14 @@
 - auth-router.js    : file that contains the /login and /signup endpoints
 
 ## Endpoints
-- /signup: Endpoint that receives credentials and uses them to create a new account for - user.
-- /login           : Endpoint that uses auth-middleware functions to authenticate user - creds,   - then
-- logs in user.
-- /logout          : (Session based) Logs user out of their account.
-- /change-password : Endpoint that changes the current password of user with new       - password provided by the user front the frontend.
-- /status          : endpoint that tests whether a session is created at login.
-- A cookie is being set and subsequent request see the same req.session.user
-- /me              : Endpoint that tests authorization middleware.
+
+| **Request Type**| **Auth Endpoint** | **Description**|
+|-----------------|-------------------|----------------|
+| POST            | `/api/auth/signup`          | Creates new account               |
+| POST            | `/api/auth/login`           | Logs in current user              |
+| POST            | `/api/auth/logout`          | Logs out currently logged in user |
+| POST            | `/api/auth/change-password` | updates password of current user  |
+| GET             | `/api/auth/status`          | Tests for session creation at login |
+| GET             | `/api/auth/me`              | Tests authorization middleware    |
+
 
