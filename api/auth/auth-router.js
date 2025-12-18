@@ -19,7 +19,7 @@ const {
 
 } = require('./auth-middleware');
 
-const bcrypt = required('bcrypt');
+
 
 const Auth = required('./auth-model');
 
@@ -155,7 +155,7 @@ router.post('/signup', checkForMissingCreds, validateUsername, async (req, res) 
 
         // hash password
         const rounds = parseInt(process.env.ROUNDS);
-        const hashedPassword = await bcrypt.hash(password, rounds);
+        const hashedPassword = await hash(password, rounds);
 
         // create user record obj
         const userCreds = {
