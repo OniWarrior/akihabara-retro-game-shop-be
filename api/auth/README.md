@@ -36,9 +36,10 @@
 
 ## Queries
 |**Auth model**|**Description**|
-|--------------|---------------|
+|--------------|---------------------------------------------------|
 | revokeAllUserSessions(userId)     | Destroy all sessions of user |
 | findExistingUsername(username)    | Search for existing username |
 | findByUsername(username)          | Search for password using username |
 | updatePassword(username,password) | Update current password of user    |
+| addUser(user)                     | Adds user into the db              |
 
