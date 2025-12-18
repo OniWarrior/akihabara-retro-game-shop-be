@@ -167,6 +167,12 @@ router.post('/signup', checkForMissingCreds, validateUsername, async (req, res) 
         // Insert into the database
         const addedUser = await Auth.addUser(userCreds);
 
+        // check if insertion succeeded
+        if (addedUser) {
+            //success
+            return res.status(201).json({ message: `Account successfully created!` });
+        }
+
 
     } catch (err) {
         // failure response
