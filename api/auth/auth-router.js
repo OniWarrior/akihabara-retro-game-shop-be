@@ -4,6 +4,7 @@
  * Desc  : File that contains the endpoints for login and signup
  * */
 
+const { hash } = require('bcrypt');
 const {
     requiredAuthorization,
     checkForMissingCreds,
@@ -152,10 +153,19 @@ router.post('/signup', checkForMissingCreds, validateUsername, async (req, res) 
             password
         } = req.body;
 
+        // hash password
+        const rounds = parseInt(process.env.ROUNDS);
+        const hashedPassword = await bcrypt.hash(password, rounds);
+
         // create user record obj
         const userCreds = {
-            username: username
+            username: username,
+            password: hashedPassword,
+            user_type: "Customer"
         }
+
+        // Insert into the database
+        const addedUser = await Auth.addUser(userCreds);
 
 
     } catch (err) {
