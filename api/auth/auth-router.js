@@ -146,7 +146,10 @@ router.post('/login', checkForMissingCreds, requiredAuthorization, checkUsername
 router.post('/signup', checkForMissingCreds, validateUsername, async (req, res) => {
     try {
 
+
     } catch (err) {
+        // failure response
+        return res.status(500).json({ message: `Server Error: ${err.message}` });
 
     }
 
