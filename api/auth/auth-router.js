@@ -11,7 +11,6 @@ const {
     checkUsernameExists,
     loginLimiter,
     validatePassword,
-    requiredCSRF,
     checkForMissingPasswords,
     checkIfUserExists,
     updatePassword,
@@ -21,7 +20,7 @@ const {
 
 
 
-const Auth = required('./auth-model');
+const Auth = require('./auth-model');
 
 const router = require('express').Router();
 
@@ -63,7 +62,7 @@ router.get('/status', async (req, res) => {
 
     // check for a failed retrieval
     if (!req.session?.user) {
-        return res.status(400).json({ authentication: false });
+        return res.status(200).json({ authentication: false });
     }
 
     // is successful, return success response
@@ -84,7 +83,7 @@ router.get('/me', requiredAuthorization, async (req, res) => {
 /*
  * /logout: endpoint to log out a user from a session
  */
-router.post('/logout', checkForMissingCreds, requiredAuthorization, async (req, res) => {
+router.post('/logout', requiredAuthorization, async (req, res) => {
     try {
 
         // destroy the current session to perform logout
@@ -109,7 +108,7 @@ router.post('/logout', checkForMissingCreds, requiredAuthorization, async (req, 
 /*
  * /login: logs in the user with provided credentials
  */
-router.post('/login', checkForMissingCreds, requiredAuthorization, checkUsernameExists, validatePassword, loginLimiter, async (req, res) => {
+router.post('/login', loginLimiter, checkForMissingCreds, checkUsernameExists, validatePassword, async (req, res) => {
     try {
 
 
@@ -128,10 +127,12 @@ router.post('/login', checkForMissingCreds, requiredAuthorization, checkUsername
 
             }
 
+            // if this point is reached, then return success response
+            return res.status(200).json({ message: 'Logged In' });
+
         })
 
-        // if this point is reached, then return success response
-        return res.status(200).json({ message: 'Logged In' });
+
 
 
     } catch (err) {
