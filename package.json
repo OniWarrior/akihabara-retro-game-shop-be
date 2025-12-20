@@ -4,7 +4,20 @@
   "description": "This is the back-end api for the akihabara retro game shop front end",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "mup": "knex migrate:up",
+    "mdown": "knex migrate:down",
+    "seed": "knex seed:run",
+    "resetdb": "npm run rollback && npm run migrate && npm run seed",
+    "migrateh": "heroku run knex migrate:latest -a akihabara-retro-game-shop-be",
+    "rollbackh": "heroku run knex migrate:rollback -a akihabara-retro-game-shop-be",
+    "databaseh": "heroku pg:psql -a akihabara-retro-game-shop-be",
+    "seedh": "heroku run knex seed:run -a akihabara-retro-game-shop-be",
+    "deploy": "git push heroku main",
+    "test": "cross-env NODE_ENV=testing jest --watchAll --verbose --runInBand"
   },
   "author": "Stephen Aranda",
   "license": "ISC",
@@ -31,6 +44,6 @@
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
-    "supertest": "^7.0.0"
+    "supertest": "^7.1.4"
   }
 }
