@@ -12,4 +12,13 @@ const request = require("supertest");
 const server = require("../server");
 
 // import the database knex instance
-const db = require("../data/dbConfig"); 
+const db = require("../data/dbConfig");
+
+
+// retrieve any csrf
+async function getCsrf(agent) {
+    // make get request
+    const response = await server.get('/api/auth/csrf');
+
+
+}
