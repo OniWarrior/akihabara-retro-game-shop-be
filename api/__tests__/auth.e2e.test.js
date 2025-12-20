@@ -49,10 +49,16 @@ afterAll(async () => {
 // Integration testing for auth endpoints
 describe("Auth (sessions) ", () => {
 
-    // test for status endpoint check if requireAuthorization works
-    test("GET /api/auth/status returns authentication:false when not logged in", async () => {
+    //  unit test for status endpoint check if requireAuthorization works
+    test("GET /api/auth/status returns authenticated:false when not logged in", async () => {
         // make the request
         const response = await server.get('/api/auth/status');
+
+        // added expected status code
+        expect(response.statusCode).toBe(200);
+
+        // expected should show authentication is false
+        expect(response.body).toBe({ authenticated: false });
     })
 
 })
