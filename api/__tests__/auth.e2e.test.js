@@ -147,6 +147,9 @@ describe("Auth (sessions) ", () => {
             .post("/api/auth/signup")
             .set("X-CSRF-Token", csrf)
             .send({ username: "stephen", password: "Password123!", user_type: "user" });
+
+        // get a new csrf token
+        const csrf2 = await getCsrf(agent);
     })
 
 })
