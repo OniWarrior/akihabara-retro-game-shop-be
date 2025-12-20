@@ -156,6 +156,27 @@ describe("Auth (sessions) ", () => {
             .post("/api/auth/login")
             .set("X-CSRF-Token", csrf2)
             .send({ username: "stephen", password: "Password123!" });
+
+        // get the status
+        const before = await agent.get("/api/auth/status");
+        expect(before.body.authenticated).toBe(true);
+
+        // get new csrf
+        const csrf3 = await getCsrf(agent);
+
+        // hit logout endpoint
+        const logout = await agent
+            .post("/api/auth/logout")
+            .set("X-CSRF-Token", csrf3);
+
+        // expect successful logout-status 200
+        expect(logout.statusCode).toBe(200);
+
+        // hit status to check authenticated
+        const after = await agent.get("/api/auth/status");
+
+        // expected authenticated to be false
+        expect(after.body).toEqual({ authenticated: false });
     })
 
 })
