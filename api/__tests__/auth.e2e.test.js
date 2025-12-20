@@ -45,3 +45,15 @@ afterAll(async () => {
     await db.destroy();
 });
 
+
+// Integration testing for auth endpoints
+describe("Auth (sessions) ", () => {
+
+    // test for status endpoint check if requireAuthorization works
+    test("GET /api/auth/status returns authentication:false when not logged in", async () => {
+        // make the request
+        const response = await server.get('/api/auth/status');
+    })
+
+})
+
