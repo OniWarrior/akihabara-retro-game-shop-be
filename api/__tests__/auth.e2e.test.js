@@ -113,6 +113,24 @@ describe("Auth (sessions) ", () => {
 
         // insert a user directly
         const csrf = await getCsrf(agent);
+
+        // hit the signup endpoint
+        await agent
+            .post("/api/auth/signup")
+            .set("X-CSRF-Token", csrf)
+            .send({ username: "stephen", password: "Password123!", user_type: "user" });
+
+        // get the new csrf
+        const csrf2 = await getCsrf(agent);
+
+        // hit login
+        const login = await agent
+            .post("/api/auth/login")
+            .set("X-CSRF-Token", csrf2)
+            .send({ username: "stephen", password: "WRONG" });
+
+        // check the status code-see if failed
+        expect(login.statusCode).toBe(401);
     })
 
 })
