@@ -15,10 +15,33 @@ const server = require("../server");
 const db = require("../data/dbConfig");
 
 
-// retrieve any csrf
+// retrieve any csrf using agent
 async function getCsrf(agent) {
     // make get request
-    const response = await server.get('/api/auth/csrf');
+    const response = await agent.get('/api/auth/csrf');
 
+    // check for status code-expects success response
+    expect(response.statusCode).toBe(200);
+
+    // check for token type- expects string
+    expect(typeof response.body.csrfToken).toBe("string");
+    return response.body.csrfToken;
 
 }
+
+beforeAll(async () => {
+
+    // Ensure schema is up to date in testing db
+    await db.migrate.latest();
+})
+
+beforeEach(async () => {
+    // Clean tables between tests (order matters due to FK constraints if any)
+    await db("session").del();
+    await db("users").del();
+});
+
+afterAll(async () => {
+    await db.destroy();
+});
+
