@@ -61,5 +61,49 @@ describe("Auth (sessions) ", () => {
         expect(response.body).toBe({ authenticated: false });
     })
 
+    // unit test for signup then login then status to show authenticated true
+    test("signup -> login -> status shows authenticated:true and user snapshot", async () => {
+
+        // get the agent
+        const agent = request.agent(server);
+
+        // 1) Signup (POST needs CSRF because you mounted requiredCSRF on /api)
+        const csrf1 = await getCsrf(agent);
+
+        // hit the signup endpoint, set csrf token
+        const signup = await agent
+            .post("/api/auth/signup")
+            .set("X-CSRF-Token", csrf1)
+            .send({ username: "stephen", password: "Password123!", user_type: "user" });
+
+        // expect 200, 201 status code on signup completion
+        expect([200, 201]).toContain(signup.statusCode);
+
+        // Verify user inserted and password hashed (not plaintext)
+        const userRow = await db("users").where({ username: "stephen" }).first();
+        expect(userRow).toBeTruthy();
+        expect(userRow.password).not.toBe("Password123!");
+
+        // 2) Login (POST also needs CSRF)
+        const csrf2 = await getCsrf(agent);
+
+        // hit the login endpoint and set teh csrf token
+        const login = await agent
+            .post("/api/auth/login")
+            .set("X-CSRF-Token", csrf2)
+            .send({ username: "stephen", password: "Password123!" });
+
+        // expect status code to be 200 after success response
+        expect(login.statusCode).toBe(200);
+
+        // 3) Status should now show authenticated
+        const status = await agent.get("/api/auth/status");
+        expect(status.statusCode).toBe(200);
+        expect(status.body.authenticated).toBe(true);
+
+        // Your session.user shape might be {user_id, username, user_type}
+        expect(status.body.user.username).toBe("stephen");
+    });
+
 })
 
