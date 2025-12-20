@@ -138,6 +138,15 @@ describe("Auth (sessions) ", () => {
 
         // get test agent
         const agent = request.agent(server);
+
+        // get the csrf token
+        const csrf = await getCsrf(agent);
+
+        // hit the signup endpoint
+        await agent
+            .post("/api/auth/signup")
+            .set("X-CSRF-Token", csrf)
+            .send({ username: "stephen", password: "Password123!", user_type: "user" });
     })
 
 })
