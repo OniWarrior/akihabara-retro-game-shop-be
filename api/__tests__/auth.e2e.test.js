@@ -105,5 +105,15 @@ describe("Auth (sessions) ", () => {
         expect(status.body.user.username).toBe("stephen");
     });
 
+    // unit test to test bad login
+    test('POST /api/auth/login returns 401 for bad password', async () => {
+
+        // get the test agent
+        const agent = request.agent(server);
+
+        // insert a user directly
+        const csrf = await getCsrf(agent);
+    })
+
 })
 
