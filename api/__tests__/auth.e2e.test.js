@@ -150,6 +150,12 @@ describe("Auth (sessions) ", () => {
 
         // get a new csrf token
         const csrf2 = await getCsrf(agent);
+
+        // hit the login endpoint
+        await agent
+            .post("/api/auth/login")
+            .set("X-CSRF-Token", csrf2)
+            .send({ username: "stephen", password: "Password123!" });
     })
 
 })
