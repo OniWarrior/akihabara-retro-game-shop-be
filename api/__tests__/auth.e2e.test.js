@@ -179,5 +179,18 @@ describe("Auth (sessions) ", () => {
         expect(after.body).toEqual({ authenticated: false });
     })
 
+    // unit test to block login without csrf token
+    test("CSRF blocks POST without token", async () => {
+        // get the agent
+        const agent = request.agent(server);
+
+        // hit login without token
+        const response = await agent
+            .post("/api/auth/login")
+            .send({ username: "x", password: "y" });
+
+        expect(response.statusCode).toBe(403);
+    });
+
 })
 
