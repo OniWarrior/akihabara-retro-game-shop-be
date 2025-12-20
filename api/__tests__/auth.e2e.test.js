@@ -133,5 +133,12 @@ describe("Auth (sessions) ", () => {
         expect(login.statusCode).toBe(401);
     })
 
+    // unit test to destroy sessions
+    test('logout test to destroy session', async () => {
+
+        // get test agent
+        const agent = request.agent(server);
+    })
+
 })
 
