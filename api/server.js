@@ -25,8 +25,7 @@ const cors = require('cors');
 // const for creating a session
 const session = require('express-session');
 
-// const for pg-simple default sessions table
-const pgSimple = require('connect-pg-simple');
+
 
 // const for pg- postgreSQL db
 const pg = require('pg');
@@ -44,6 +43,13 @@ const server = express();
  */
 const isProd = process.env.NODE_ENV === "production";
 
+/*
+ * allows for test cases to be ran
+ * comment out after tests have been completed
+ * testing: no https, for localhost. ran when testing
+ */
+const isTest = process.env.NODE_ENV === "testing";
+
 /* 
  * Heroku provides reverse proxy support (needed for secure cookies in prod).
  * Required for Express. It needs to know that the original request
@@ -55,6 +61,7 @@ server.set('trust proxy', 1);
 // core middleware
 server.use(helmet());
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }))
 
 // setting cors
 /*
@@ -72,7 +79,11 @@ server.use(
 
 // postgres pool for the session store
 const pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL || process.env.DEV_DATABASE_URL
+
+    connectionString: isTest
+        ? process.env.TESTING_DATABASE_URL
+        : (process.env.DATABASE_URL || process.env.DEV_DATABASE_URL)
+    //process.env.DATABASE_URL || process.env.DEV_DATABASE_URL  // TODO - uncomment when production is ready and testing is done
 });
 
 // session store
@@ -144,5 +155,6 @@ server.use('/api', requiredCSRF, apiRouter);
 
 
 
+module.exports = server;
 
 

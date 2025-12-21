@@ -11,7 +11,6 @@ const {
     checkUsernameExists,
     loginLimiter,
     validatePassword,
-    requiredCSRF,
     checkForMissingPasswords,
     checkIfUserExists,
     updatePassword,
@@ -19,11 +18,29 @@ const {
 
 } = require('./auth-middleware');
 
-const bcrypt = required('bcrypt');
 
-const Auth = required('./auth-model');
+
+const Auth = require('./auth-model');
 
 const router = require('express').Router();
+
+const crypto = require("crypto");
+
+
+/*
+ * /csrf: endpoint to retrieve csrf token
+ */
+router.get("/csrf", (req, res) => {
+    if (!req.session) {
+        return res.status(500).json({ message: "Session not initialized" });
+    }
+
+    if (!req.session.csrfToken) {
+        req.session.csrfToken = crypto.randomBytes(32).toString("hex");
+    }
+
+    return res.status(200).json({ csrfToken: req.session.csrfToken });
+});
 
 /*
  * /change-password: endpoint that will change the password for a user.
@@ -63,12 +80,12 @@ router.get('/status', async (req, res) => {
 
     // check for a failed retrieval
     if (!req.session?.user) {
-        return res.status(400).json({ authentication: false });
+        return res.status(200).json({ authenticated: false });
     }
 
     // is successful, return success response
     return res.status(200).json({
-        authentication: true,
+        authenticated: true,
         user: req.session.user
     })
 })
@@ -84,7 +101,7 @@ router.get('/me', requiredAuthorization, async (req, res) => {
 /*
  * /logout: endpoint to log out a user from a session
  */
-router.post('/logout', checkForMissingCreds, requiredAuthorization, async (req, res) => {
+router.post('/logout', requiredAuthorization, async (req, res) => {
     try {
 
         // destroy the current session to perform logout
@@ -109,7 +126,7 @@ router.post('/logout', checkForMissingCreds, requiredAuthorization, async (req, 
 /*
  * /login: logs in the user with provided credentials
  */
-router.post('/login', checkForMissingCreds, requiredAuthorization, checkUsernameExists, validatePassword, loginLimiter, async (req, res) => {
+router.post('/login', loginLimiter, checkForMissingCreds, checkUsernameExists, validatePassword, async (req, res) => {
     try {
 
 
@@ -128,10 +145,12 @@ router.post('/login', checkForMissingCreds, requiredAuthorization, checkUsername
 
             }
 
+            // if this point is reached, then return success response
+            return res.status(200).json({ message: 'Logged In' });
+
         })
 
-        // if this point is reached, then return success response
-        return res.status(200).json({ message: 'Logged In' });
+
 
 
     } catch (err) {
@@ -155,7 +174,7 @@ router.post('/signup', checkForMissingCreds, validateUsername, async (req, res) 
 
         // hash password
         const rounds = parseInt(process.env.ROUNDS);
-        const hashedPassword = await bcrypt.hash(password, rounds);
+        const hashedPassword = await hash(password, rounds);
 
         // create user record obj
         const userCreds = {
