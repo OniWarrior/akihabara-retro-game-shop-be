@@ -25,8 +25,7 @@ const cors = require('cors');
 // const for creating a session
 const session = require('express-session');
 
-// const for pg-simple default sessions table
-const pgSimple = require('connect-pg-simple');
+
 
 // const for pg- postgreSQL db
 const pg = require('pg');
@@ -62,6 +61,7 @@ server.set('trust proxy', 1);
 // core middleware
 server.use(helmet());
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }))
 
 // setting cors
 /*
@@ -151,6 +151,7 @@ server.use(
 
 // mount routers
 server.use('/api', requiredCSRF, apiRouter);
+
 
 
 
