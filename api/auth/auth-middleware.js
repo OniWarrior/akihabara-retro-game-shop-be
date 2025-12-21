@@ -84,7 +84,7 @@ const requiredCSRF = (req, res, next) => {
     const provided = req.get("X-CSRF-Token"); // header name
 
     // compare expected and provided tokens
-    if (!expected || !provided || !safeEqual(expected, provided)) {
+    if (!expected || !provided || !isSafeOrEqual(expected, provided)) {
         return res.status(403).json({ message: "CSRF token invalid or missing" });
     }
 
@@ -107,7 +107,7 @@ const loginLimiter = rateLimit({
 /*
  * checkForMissingCreds: check if there are missing username or password for a login or signup
  */
-const checkForMissingCreds = async (res, req, next) => {
+const checkForMissingCreds = async (req, res, next) => {
 
     // get the username and password from the req.body
     const {
@@ -127,7 +127,7 @@ const checkForMissingCreds = async (res, req, next) => {
  * validateUsername: check if the username provided exists in db already.
  * /signup middleware
  *  */
-const validateUsername = async (res, req, next) => {
+const validateUsername = async (req, res, next) => {
 
     // get the username
     const { username } = req.body;
@@ -138,7 +138,7 @@ const validateUsername = async (res, req, next) => {
     //check if the db is successful
     if (!foundUsername) {
         // success! continue
-        next();
+        return next();
     }
     return res.status(400).json({ message: 'username already exists!' });
 
@@ -163,7 +163,7 @@ const requiredAuthorization = async (req, res, next) => {
  * checkUsernameExists: check if the username exists. 
  * /login  middleware
  */
-const checkUsernameExists = async (res, req, next) => {
+const checkUsernameExists = async (req, res, next) => {
 
     // get the username
     const { username } = req.body;
@@ -175,7 +175,7 @@ const checkUsernameExists = async (res, req, next) => {
     if (userCreds) {
         // success! continue
         req.userCreds = userCreds;
-        next();
+        return next();
     }
     return res.status(400).json({ message: 'username/password does not exist' });
 
@@ -185,7 +185,7 @@ const checkUsernameExists = async (res, req, next) => {
  * validatePassword: validate the password with provided password
  * /login middleware
  */
-const validatePassword = async (res, req, next) => {
+const validatePassword = async (req, res, next) => {
 
     const { username,
         password
@@ -200,7 +200,7 @@ const validatePassword = async (res, req, next) => {
     // check if db op and password validation successful
     if (userCreds && encryption) {
 
-        next();
+        return next();
     }
 
     return res.status(400).json({ message: 'username/password does not exist' });
