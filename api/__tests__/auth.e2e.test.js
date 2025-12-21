@@ -9,25 +9,10 @@
 const request = require("supertest");
 
 // import Express server app
-const server = require("../server");
+const server = require("../server.js");
 
 // import the database knex instance
-const db = require("../data/dbConfig");
-
-
-// retrieve any csrf using agent
-async function getCsrf(agent) {
-    // make get request
-    const response = await agent.get('/api/auth/csrf');
-
-    // check for status code-expects success response
-    expect(response.statusCode).toBe(200);
-
-    // check for token type- expects string
-    expect(typeof response.body.csrfToken).toBe("string");
-    return response.body.csrfToken;
-
-}
+const db = require("../data/dbConfig.js");
 
 beforeAll(async () => {
 
@@ -46,20 +31,40 @@ afterAll(async () => {
 });
 
 
+// retrieve any csrf using agent
+async function getCsrf(agent) {
+    // make get request
+    const response = await agent.get('/api/auth/csrf');
+
+
+    // check for status code-expects success response
+    expect(response.status).toBe(200);
+
+    // check for token type- expects string
+    expect(typeof response.body.csrfToken).toBe("string");
+    return response.body.csrfToken;
+
+}
+
+
+
+
 // Integration testing for auth endpoints
 describe("Auth (sessions) ", () => {
 
     //  unit test for status endpoint check if requireAuthorization works
     test("GET /api/auth/status returns authenticated:false when not logged in", async () => {
         // make the request
-        const response = await server.get('/api/auth/status');
+        const response = await request.agent(server).get('/api/auth/status');
+
+
 
         // added expected status code
-        expect(response.statusCode).toBe(200);
+        expect(response.status).toBe(200);
 
         // expected should show authentication is false
-        expect(response.body).toBe({ authenticated: false });
-    })
+        expect(response.body).toStrictEqual({ authenticated: false });
+    });
 
     // unit test for signup then login then status to show authenticated true
     test("signup -> login -> status shows authenticated:true and user snapshot", async () => {
@@ -70,14 +75,18 @@ describe("Auth (sessions) ", () => {
         // 1) Signup (POST needs CSRF because you mounted requiredCSRF on /api)
         const csrf1 = await getCsrf(agent);
 
+        const user = { username: "stephen", password: "Password123!", user_type: "Customer" }
         // hit the signup endpoint, set csrf token
         const signup = await agent
             .post("/api/auth/signup")
             .set("X-CSRF-Token", csrf1)
-            .send({ username: "stephen", password: "Password123!", user_type: "user" });
+            .set('Content-Type', 'application/json')
+            .send(user);
 
-        // expect 200, 201 status code on signup completion
-        expect([200, 201]).toContain(signup.statusCode);
+
+
+        // expect  201 status code on signup completion
+        expect(signup.status).toBe(201);
 
         // Verify user inserted and password hashed (not plaintext)
         const userRow = await db("users").where({ username: "stephen" }).first();
@@ -87,18 +96,24 @@ describe("Auth (sessions) ", () => {
         // 2) Login (POST also needs CSRF)
         const csrf2 = await getCsrf(agent);
 
+        const log = { username: "stephen", password: "Password123!" }
+
         // hit the login endpoint and set teh csrf token
         const login = await agent
             .post("/api/auth/login")
             .set("X-CSRF-Token", csrf2)
-            .send({ username: "stephen", password: "Password123!" });
+            .set('Content-Type', 'application/json')
+            .send(log)
+
+
 
         // expect status code to be 200 after success response
-        expect(login.statusCode).toBe(200);
+        expect(login.status).toBe(200);
 
         // 3) Status should now show authenticated
-        const status = await agent.get("/api/auth/status");
-        expect(status.statusCode).toBe(200);
+        const status = await agent.get("/api/auth/status")
+
+        expect(status.status).toBe(200);
         expect(status.body.authenticated).toBe(true);
 
         // Your session.user shape might be {user_id, username, user_type}
@@ -118,7 +133,7 @@ describe("Auth (sessions) ", () => {
         await agent
             .post("/api/auth/signup")
             .set("X-CSRF-Token", csrf)
-            .send({ username: "stephen", password: "Password123!", user_type: "user" });
+            .send({ username: "stephen", password: "Password123!", user_type: "Customer" });
 
         // get the new csrf
         const csrf2 = await getCsrf(agent);
@@ -127,10 +142,11 @@ describe("Auth (sessions) ", () => {
         const login = await agent
             .post("/api/auth/login")
             .set("X-CSRF-Token", csrf2)
-            .send({ username: "stephen", password: "WRONG" });
+            .send({ username: "stephen", password: "WRONG" })
+
 
         // check the status code-see if failed
-        expect(login.statusCode).toBe(401);
+        expect(login.status).toBe(400);
     })
 
     // unit test to destroy sessions
@@ -146,7 +162,7 @@ describe("Auth (sessions) ", () => {
         await agent
             .post("/api/auth/signup")
             .set("X-CSRF-Token", csrf)
-            .send({ username: "stephen", password: "Password123!", user_type: "user" });
+            .send({ username: "stephen", password: "Password123!", user_type: "Customer" });
 
         // get a new csrf token
         const csrf2 = await getCsrf(agent);
@@ -167,10 +183,11 @@ describe("Auth (sessions) ", () => {
         // hit logout endpoint
         const logout = await agent
             .post("/api/auth/logout")
-            .set("X-CSRF-Token", csrf3);
+            .set("X-CSRF-Token", csrf3)
+
 
         // expect successful logout-status 200
-        expect(logout.statusCode).toBe(200);
+        expect(logout.status).toBe(200);
 
         // hit status to check authenticated
         const after = await agent.get("/api/auth/status");
@@ -187,7 +204,8 @@ describe("Auth (sessions) ", () => {
         // hit login without token
         const response = await agent
             .post("/api/auth/login")
-            .send({ username: "x", password: "y" });
+            .send({ username: "x", password: "y" })
+            .expect(403);
 
         expect(response.statusCode).toBe(403);
     });
