@@ -24,6 +24,24 @@ const Auth = require('./auth-model');
 
 const router = require('express').Router();
 
+const crypto = require("crypto");
+
+
+/*
+ * /csrf: endpoint to retrieve csrf token
+ */
+router.get("/csrf", (req, res) => {
+    if (!req.session) {
+        return res.status(500).json({ message: "Session not initialized" });
+    }
+
+    if (!req.session.csrfToken) {
+        req.session.csrfToken = crypto.randomBytes(32).toString("hex");
+    }
+
+    return res.status(200).json({ csrfToken: req.session.csrfToken });
+});
+
 /*
  * /change-password: endpoint that will change the password for a user.
  */
@@ -62,12 +80,12 @@ router.get('/status', async (req, res) => {
 
     // check for a failed retrieval
     if (!req.session?.user) {
-        return res.status(200).json({ authentication: false });
+        return res.status(200).json({ authenticated: false });
     }
 
     // is successful, return success response
     return res.status(200).json({
-        authentication: true,
+        authenticated: true,
         user: req.session.user
     })
 })
