@@ -15,6 +15,12 @@ router.get('/products', async (req, res) => {
         // retrieve products
         const products = await Products.getProducts();
 
+        // check if retrieval succeeded
+        if (products) {
+            // success 
+            return res.status(200).json(products);
+        }
+
 
 
     } catch (err) {
