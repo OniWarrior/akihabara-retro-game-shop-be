@@ -5,12 +5,14 @@
  * 
  */
 const router = require('express').Router();
-
+const Products = require('./product-model');
 /*
  * /products: Endpoint that retrieves all available products for purchase in store
  */
-router('/products', async (req, res) => {
+router.get('/products', async (req, res) => {
     try {
+
+
 
     } catch (err) {
         // failure response
