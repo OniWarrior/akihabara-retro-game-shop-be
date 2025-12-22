@@ -12,6 +12,9 @@ const Products = require('./product-model');
 router.get('/products', async (req, res) => {
     try {
 
+        // retrieve products
+        const products = await Products.getProducts();
+
 
 
     } catch (err) {
