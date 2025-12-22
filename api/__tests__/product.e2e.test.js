@@ -28,3 +28,9 @@ beforeEach(async () => {
 afterAll(async () => {
     await db.destroy();
 });
+
+
+// integration test for product retrieval
+describe('Product retrieval', () => {
+
+})
