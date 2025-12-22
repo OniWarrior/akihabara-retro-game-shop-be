@@ -23,14 +23,51 @@ beforeEach(async () => {
     // Clean tables between tests (order matters due to FK constraints if any)
     await db("session").del();
     await db("users").del();
+    await db("products").del();
 });
 
 afterAll(async () => {
     await db.destroy();
 });
 
+// retrieve any csrf using agent
+async function getCsrf(agent) {
+    // make get request
+    const response = await agent.get('/api/auth/csrf');
+
+
+    // check for status code-expects success response
+    expect(response.status).toBe(200);
+
+    // check for token type- expects string
+    expect(typeof response.body.csrfToken).toBe("string");
+    return response.body.csrfToken;
+
+}
+
 
 // integration test for product retrieval
 describe('Product retrieval', () => {
+
+    // unit test for product retrieval when a visitor visits the site but is not logged in
+    test("GET /api/product/products", async () => {
+        // get the agent
+        const agent = request.agent(server);
+
+        // 1) products (GET - will be skipped
+        const csrf1 = await getCsrf(agent);
+
+        // hit the products endpoint
+        const products = await agent
+            .get('/api/product/products')
+            .set('X-CSRF-Token', csrf1);
+
+        // check the status code
+        expect(products.status).toBe(200);
+
+
+
+
+    })
 
 })
