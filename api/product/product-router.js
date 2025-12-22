@@ -4,3 +4,4 @@
  * Desc  : Endpoint for product retrieval for the front end
  * 
  */
+const router = require('express').Router();
