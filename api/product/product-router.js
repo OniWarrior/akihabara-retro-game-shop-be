@@ -28,3 +28,5 @@ router.get('/products', async (req, res) => {
         return res.status(500).json({ message: `Server Error: ${err.message}` });
     }
 })
+
+module.exports = router;
