@@ -80,6 +80,11 @@ router.get('/get-past-orders', async (req, res) => {
         // get the orders
         const orders = await Customer.retrieveOrders(user_id);
 
+        // check if retrieval is successful
+        if (orders) {
+            return res.status(200).json(orders);
+        }
+
     } catch (err) {
         // failure response
         return res.status(500).json({ message: `Server Error: ${err.message}` });
