@@ -1,7 +1,8 @@
 /*
- * Author : Stephen Aranda
- * file   : product.e2e.test.js
- * Desc   : Integration test for testing the product-router endpoints.
+ * Author: Stephen Aranda
+ * File  : product.e2e.test.js
+ * Desc  : File that contains all the test that will be conducted involving auth endpoints from
+ *       : product-router.js
  */
 
 // import super test for integration test
@@ -16,19 +17,22 @@ const db = require("../data/dbConfig.js");
 beforeAll(async () => {
 
     // Ensure schema is up to date in testing db
+    await db.migrate.rollback();
     await db.migrate.latest();
 })
 
 beforeEach(async () => {
     // Clean tables between tests (order matters due to FK constraints if any)
     await db("session").del();
-    await db("users").del();
     await db("products").del();
+    await db.seed.run()
+
 });
 
 afterAll(async () => {
     await db.destroy();
 });
+
 
 // retrieve any csrf using agent
 async function getCsrf(agent) {
@@ -64,9 +68,6 @@ describe('Product retrieval', () => {
 
         // check the status code
         expect(products.status).toBe(200);
-
-
-
 
     })
 
