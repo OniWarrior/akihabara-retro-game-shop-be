@@ -5,12 +5,20 @@
  */
 
 const router = require('express').Router();
+const Product = require('../product/product-model');
+
 
 /*
  * /buy-product: Endpoint that allows the customer to buy a specific item.
  */
-router.post('/buy-product', async (req, res) => {
+router.post('/buy-product/:product_id', async (req, res) => {
     try {
+
+        // get the product id
+        const { product_id } = req.params;
+
+        // retrieve the specific product from db
+        const product = await Product.getSpecificProduct(product_id);
 
     } catch (err) {
         // failure response
