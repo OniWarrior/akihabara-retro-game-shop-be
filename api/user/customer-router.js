@@ -9,7 +9,7 @@ const Product = require('../product/product-model');
 const Customer = require('../user/customer-model');
 
 /*
- * /buy-product: Endpoint that allows the customer to buy a specific item.
+ * /buy-product/:product_id/:quantity: Endpoint that allows the customer to buy a specific item.
  */
 router.post('/buy-product/:product_id/:quantity', async (req, res) => {
     try {
@@ -60,6 +60,19 @@ router.post('/buy-product/:product_id/:quantity', async (req, res) => {
             // success
             return res.status(201).json("Successfully purchased item!");
         }
+
+    } catch (err) {
+        // failure response
+        return res.status(500).json({ message: `Server Error: ${err.message}` });
+    }
+})
+
+
+/*
+ * /get-past-orders: retrieve all past orders of the customer
+ */
+router.get('/get-past-orders', async (req, res) => {
+    try {
 
     } catch (err) {
         // failure response
