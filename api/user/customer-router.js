@@ -6,19 +6,19 @@
 
 const router = require('express').Router();
 const Product = require('../product/product-model');
-
+const Customer = require('../user/customer-model');
 
 /*
  * /buy-product: Endpoint that allows the customer to buy a specific item.
  */
-router.post('/buy-product/:product_id', async (req, res) => {
+router.post('/buy-product/:product_id/:quantity', async (req, res) => {
     try {
 
         // get the product id
         const { product_id } = req.params;
 
         // get the quantity
-        const { quantity } = req.body
+        const { quantity } = req.params;
 
         // get the user id
         const { user_id } = req.session.user;
@@ -27,7 +27,7 @@ router.post('/buy-product/:product_id', async (req, res) => {
         const product = await Product.getSpecificProduct(product_id);
 
         // get the current date
-        const date = new Date()
+        const date = new Date();
 
         // get the day
         const day = date.getDate();
@@ -52,7 +52,14 @@ router.post('/buy-product/:product_id', async (req, res) => {
             date: formattedDate
         }
 
+        // insert into the database
+        const addedOrder = await Customer.addOrder(order);
 
+        // check if db ops were successful
+        if (product && addedOrder) {
+            // success
+            return res.status(201).json("Successfully purchased item!");
+        }
 
     } catch (err) {
         // failure response
