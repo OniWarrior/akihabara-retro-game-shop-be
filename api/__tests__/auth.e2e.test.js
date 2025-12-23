@@ -17,6 +17,7 @@ const db = require("../data/dbConfig.js");
 beforeAll(async () => {
 
     // Ensure schema is up to date in testing db
+    await db.migrate.rollback();
     await db.migrate.latest();
 })
 
@@ -24,6 +25,7 @@ beforeEach(async () => {
     // Clean tables between tests (order matters due to FK constraints if any)
     await db("session").del();
     await db("users").del();
+
 });
 
 afterAll(async () => {
@@ -211,4 +213,6 @@ describe("Auth (sessions) ", () => {
     });
 
 })
+
+
 
