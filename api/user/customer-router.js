@@ -17,8 +17,13 @@ router.post('/buy-product/:product_id', async (req, res) => {
         // get the product id
         const { product_id } = req.params;
 
+        // get the user id
+        const { user_id } = req.session.user;
+
         // retrieve the specific product from db
         const product = await Product.getSpecificProduct(product_id);
+
+
 
     } catch (err) {
         // failure response

@@ -5,3 +5,7 @@
  */
 
 const db = require('../data/dbConfig');
+
+/*
+ * buyItem: Allows user to buy an item using product id as param
+ */
