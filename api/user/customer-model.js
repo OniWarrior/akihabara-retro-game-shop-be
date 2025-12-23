@@ -7,5 +7,15 @@
 const db = require('../data/dbConfig');
 
 /*
- * buyItem: Allows user to buy an item using product id as param
+ *   addOrder: adds an order of a customer into db using order obj
  */
+const addOrder = async (order) => {
+    const addedOrder = await db('orders')
+        .insert(order)
+        .returning('order_id')
+    return addedOrder
+}
+
+module.exports = {
+    addOrder
+}
