@@ -16,6 +16,25 @@ const addOrder = async (order) => {
     return addedOrder
 }
 
+/*
+ * retrieveOrders : retrieve all orders made by customer using user id
+ */
+const retrieveOrders = async (user_id) => {
+    const orders = await db('orders')
+        .select(
+            'order_id',
+            'product_name',
+            'cost',
+            'image_url',
+            'quantity',
+            'date'
+
+        )
+        .where('user_id', user_id)
+    return orders
+}
+
 module.exports = {
-    addOrder
+    addOrder,
+    retrieveOrders
 }
