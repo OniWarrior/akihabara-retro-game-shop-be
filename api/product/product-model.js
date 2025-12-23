@@ -24,6 +24,15 @@ const getProducts = async () => {
     return products
 }
 
+
+/*
+ * getSpecificProduct: query to get a specific product from db using product id as param
+ */
+const getSpecificProduct = async (product_id) => {
+
+}
+
 module.exports = {
-    getProducts
+    getProducts,
+    getSpecificProduct
 }
