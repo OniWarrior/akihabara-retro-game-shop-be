@@ -11,15 +11,16 @@ const db = require('../data/dbConfig');
  */
 const getProducts = async () => {
     const products = await db('products')
-        .select(
+        .returning([
             'product_id',
             'name',
             'cost',
             'image_url',
             'quantity',
             'product_type',
-            'product_desc'
+            'product_desc']
         )
+        .orderBy('product_id')
     return products
 }
 
