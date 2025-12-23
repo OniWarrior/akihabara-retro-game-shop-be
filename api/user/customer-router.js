@@ -74,6 +74,12 @@ router.post('/buy-product/:product_id/:quantity', async (req, res) => {
 router.get('/get-past-orders', async (req, res) => {
     try {
 
+        // get the user id of user
+        const { user_id } = req.session.user;
+
+        // get the orders
+        const orders = await Customer.retrieveOrders(user_id);
+
     } catch (err) {
         // failure response
         return res.status(500).json({ message: `Server Error: ${err.message}` });
