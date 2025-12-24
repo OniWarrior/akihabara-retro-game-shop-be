@@ -59,6 +59,10 @@ describe("Customer functionality ", () => {
 
         // get the csrf token
         const csrf = await getCsrf(agent);
+
+        // create user object
+        const user = { username: "Stephen", password: "Password123!", user_type: "Customer" };
+
     })
 
 })
