@@ -52,5 +52,11 @@ async function getCsrf(agent) {
 // Integration test to test all features of a Customer
 describe("Customer functionality ", () => {
 
+    test("POST Signup -> Login - > Buy item", async () => {
+
+        // get the agent
+        const agent = request.agent(server);
+    })
+
 })
 
