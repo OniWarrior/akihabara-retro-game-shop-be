@@ -70,6 +70,10 @@ describe("Customer functionality ", () => {
             .set("Content-Type", "application/json")
             .send(user);
 
+        // check the success code after completion
+        expect(signup.status).toBe(201);
+
+
     })
 
 })
