@@ -81,6 +81,13 @@ describe("Customer functionality ", () => {
         // check if the user row was retrieved
         expect(userRow).toBeTruthy();
 
+        // check if the password was hashed
+        expect(userRow.password).not.toBe(user.password);
+
+        // Now continue to login----
+        // get a csrf token for the login
+        const csrf2 = getCsrf(agent);
+
     })
 
 })
