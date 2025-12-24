@@ -101,6 +101,12 @@ describe("Customer functionality ", () => {
         // status should now be authenticated
         const status = await agent.get("/api/auth/status");
 
+        // check the status
+        expect(status.status).toBe(200);
+
+        // check the body for authentication
+        expect(status.body.authenticated).toBe(true);
+
 
     })
 
