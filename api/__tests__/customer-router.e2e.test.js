@@ -48,3 +48,9 @@ async function getCsrf(agent) {
 
 }
 
+
+// Integration test to test all features of a Customer
+describe("Customer functionality ", () => {
+
+})
+
