@@ -73,6 +73,13 @@ describe("Customer functionality ", () => {
         // check the success code after completion
         expect(signup.status).toBe(201);
 
+        // verify correct insertion of user into db.
+        const userRow = await db("users")
+            .where("username", user.username)
+            .first();
+
+        // check if the user row was retrieved
+        expect(userRow).toBeTruthy();
 
     })
 
