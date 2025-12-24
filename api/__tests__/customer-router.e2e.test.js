@@ -88,6 +88,13 @@ describe("Customer functionality ", () => {
         // get a csrf token for the login
         const csrf2 = getCsrf(agent);
 
+        // hit the login endpoint
+        const login = await agent
+            .post('/api/auth/login')
+            .set("X-CSRF-Token", csrf2)
+            .send({ username: user.username, password: user.password });
+
+
     })
 
 })
