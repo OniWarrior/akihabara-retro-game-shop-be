@@ -29,27 +29,15 @@ router.post('/buy-product/:product_id/:quantity', async (req, res) => {
         // get the current date
         const date = new Date();
 
-        // get the day
-        const day = date.getDate();
-
-        // get the month
-        const month = date.getMonth() + 1;
-
-        // get the year
-        const year = date.getFullYear()
-
-        // format the date
-        const formattedDate = `${day}` + "-" + `${month}` + "-" + `${year}`;
-
         // make the order object
         const order = {
-            product_id: product.product_id,
+            product_id: Number(product_id),
             user_id: user_id,
             product_name: product.name,
-            cost: product.cost,
+            cost: Number(product.cost).toFixed(2),
             image_url: product.image_url,
-            quantity: quantity,
-            date: formattedDate
+            quantity: Number(quantity),
+            date: date
         }
 
         // insert into the database
