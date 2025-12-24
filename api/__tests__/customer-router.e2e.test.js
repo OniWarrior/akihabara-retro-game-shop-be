@@ -92,7 +92,14 @@ describe("Customer functionality ", () => {
         const login = await agent
             .post('/api/auth/login')
             .set("X-CSRF-Token", csrf2)
+            .set('Content-Type', 'application/json')
             .send({ username: user.username, password: user.password });
+
+        // check the status code
+        expect(login.status).toBe(200);
+
+        // status should now be authenticated
+        const status = await agent.get("/api/auth/status");
 
 
     })
