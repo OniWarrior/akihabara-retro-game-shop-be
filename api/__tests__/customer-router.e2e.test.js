@@ -63,6 +63,13 @@ describe("Customer functionality ", () => {
         // create user object
         const user = { username: "Stephen", password: "Password123!", user_type: "Customer" };
 
+        // hit signup endpoint to create account
+        const signup = await agent
+            .post("/api/auth/signup")
+            .set("X-CSRF-Token", csrf)
+            .set("Content-Type", "application/json")
+            .send(user);
+
     })
 
 })
