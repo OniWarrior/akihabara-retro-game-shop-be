@@ -56,6 +56,9 @@ describe("Customer functionality ", () => {
 
         // get the agent
         const agent = request.agent(server);
+
+        // get the csrf token
+        const csrf = await getCsrf(agent);
     })
 
 })
