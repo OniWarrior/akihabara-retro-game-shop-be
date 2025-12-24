@@ -52,7 +52,7 @@ async function getCsrf(agent) {
 // Integration test to test all features of a Customer
 describe("Customer functionality ", () => {
 
-    test("POST Signup -> Login - > Buy item", async () => {
+    test("POST Signup -> Login - > Buy item - happy path", async () => {
 
         // get the agent
         const agent = request.agent(server);
@@ -109,6 +109,16 @@ describe("Customer functionality ", () => {
 
         // check if the session.user object has the username 
         expect(status.body.user.username).toBe(user.username);
+
+        // now attempt to buy an item
+        const buyItem = await agent
+            .post("/api/user/buy-product/1/1")
+            .set("X-CSRF-Token", csrf2)
+            .set('Content-Type', 'application/json')
+
+        // check status
+        expect(buyItem.status).toBe(201);
+
 
 
     })
