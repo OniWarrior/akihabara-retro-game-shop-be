@@ -107,6 +107,9 @@ describe("Customer functionality ", () => {
         // check the body for authentication
         expect(status.body.authenticated).toBe(true);
 
+        // check if the session.user object has the username 
+        expect(status.body.user.username).toBe(user.username);
+
 
     })
 
