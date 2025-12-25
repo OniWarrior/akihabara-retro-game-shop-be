@@ -6,7 +6,7 @@
 
 const Manager = require('./manager-model');
 
-// middleware to retrieve user role
+// getRole: middleware to retrieve user role
 const getRole = async (req, res, next) => {
 
     // retrieve the username
@@ -22,6 +22,21 @@ const getRole = async (req, res, next) => {
         default: return res.status(403).json("No valid role was provided to perform action");
     }
 
+}
+
+// checkForMissingProduct = checks for missing product information
+const checkForMissingProduct = async (req, res, next) => {
+
+    // deconstruct the req.body to retrieve sent information.
+    const {
+        name,
+        cost,
+        quantity,
+        image_url,
+        product_type,
+        product_desc
+
+    } = req.body;
 }
 
 module.exports = { getRole }
