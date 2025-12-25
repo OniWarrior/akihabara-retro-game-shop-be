@@ -37,6 +37,16 @@ const checkForMissingProduct = async (req, res, next) => {
         product_desc
 
     } = req.body;
+
+    if (!name || name === "" ||
+        !cost || cost === "" ||
+        !quantity || quantity === "" ||
+        !image_url || image_url === "" ||
+        !product_type || product_type === "" ||
+        !product_desc || product_desc === "") {
+        return res.status(401).json("Missing product information!");
+    }
+    next();
 }
 
-module.exports = { getRole }
+module.exports = { getRole, checkForMissingProduct }
