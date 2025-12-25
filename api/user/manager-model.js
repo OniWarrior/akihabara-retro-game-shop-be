@@ -15,3 +15,5 @@ const addProduct = async (product) => {
         .returning("product_id")
     return addedProduct
 }
+
+module.exports = addProduct;
