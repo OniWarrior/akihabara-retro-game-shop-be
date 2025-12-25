@@ -11,7 +11,7 @@ const { getRole, checkForMissingProduct } = require('./manager-middleware');
  * add-product: endpoint that allows the manager to add a product
  */
 
-router.post('add-product', getRole, checkForMissingProduct, async (req, res) => {
+router.post('/add-product', getRole, checkForMissingProduct, async (req, res) => {
     try {
 
         // deconstruct the req.body to retrieve sent information.
