@@ -179,8 +179,7 @@ router.post('/signup', checkForMissingCreds, validateUsername, async (req, res) 
         // create user record obj
         const userCreds = {
             username: username,
-            password: hashedPassword,
-            user_type: "Customer"
+            password: hashedPassword
         }
 
         // Insert into the database

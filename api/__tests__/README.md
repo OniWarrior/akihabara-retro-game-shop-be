@@ -35,5 +35,17 @@
 | POST Signup -> Login - > Buy item - sad path | Sad path for buying an item as a customer- incorrect req.params |
 | GET Signup -> Login - > Buy item - > past-orders - happy path | Happy path for retrieving past orders as a customer |
 
+## manager-router.e2e.test.js
+
+# Integration Test Manager Functionality
+
+| **Unit Test**| **Description**|
+|--------------|---------------------|
+| POST  Login - > Add product - happy path | Happy path for buying an item as a manager|
+| POST Signup -> Login - > Add Product - sad path | Sad path for adding an item as a manager-incorrect token |
+| POST Signup -> Login - > Add Product - sad path | sad path for adding an item as a manager-invalid role Customer |
+| POST Signup -> Login - > Add Product - sad path | sad path for adding an item as a manager-invalid role neither Customer or Manager |
+| POST Signup -> Login - > Add Product - sad path | sad path for adding an item as a manager-missing product | 
+
 
 

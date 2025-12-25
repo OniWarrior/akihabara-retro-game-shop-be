@@ -19,3 +19,24 @@
 |--------------|---------------------------------------------------|
 | addOrder(order) | Adds a customer order to database. |
 | retrieveOrders(user_id) | Retrieves all orders of customer using user's id. |
+
+
+## Endpoints
+| **Request Type**| **Manager Endpoint** | **Description**|
+|-----------------|-------------------|----------------|
+| POST | `/api/user/add-product` | Allows manager to add product |
+
+
+## Middleware
+
+|**Manager Middleware**|**Description**|
+|--------------|---------------------------------------------------|
+| getRole(req,res,next) | Retrieves and validates role of user. |
+| checkForMissingProduct(req,res,next) | Checks for missing product information. |
+
+
+## Queries
+|**Manager Model**|**Description**|
+|--------------|---------------------------------------------------|
+| addProduct(product) | Adds a product to database. |
+| retrieveRole(username) | Retrieves role of user using username param. |
