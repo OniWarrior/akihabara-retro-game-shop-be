@@ -48,7 +48,7 @@ const isProd = process.env.NODE_ENV === "production";
  * comment out after tests have been completed
  * testing: no https, for localhost. ran when testing
  */
-const isTest = process.env.NODE_ENV === "testing";
+// const isTest = process.env.NODE_ENV === "testing";
 
 /* 
  * Heroku provides reverse proxy support (needed for secure cookies in prod).
@@ -80,10 +80,11 @@ server.use(
 // postgres pool for the session store
 const pool = new pg.Pool({
 
-    connectionString: isTest
-        ? process.env.TESTING_DATABASE_URL
-        : (process.env.DATABASE_URL || process.env.DEV_DATABASE_URL)
-    //process.env.DATABASE_URL || process.env.DEV_DATABASE_URL  // TODO - uncomment when production is ready and testing is done
+    connectionString: process.env.DATABASE_URL || process.env.DEV_DATABASE_URL
+    //connectionString: //isTest
+    //     ? process.env.TESTING_DATABASE_URL
+    //     : (process.env.DATABASE_URL || process.env.DEV_DATABASE_URL)
+
 });
 
 // session store
