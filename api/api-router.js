@@ -12,7 +12,9 @@ const productRouter = require('./product/product-router');
 
 const customerRouter = require('./user/customer-router');
 
-// TODO-add other routers when completed
+const managerRouter = require('./user/manager-router');
+
+
 
 // mount auth router
 router.use('/auth', authRouter);
@@ -20,7 +22,10 @@ router.use('/auth', authRouter);
 // mount product router
 router.use('/product', productRouter);
 
-// mount the customer router
-router.use('/user', customerRouter);
+// mount the customer router and manager router
+router.use('/user', customerRouter, managerRouter);
+
+
+
 
 module.exports = router;
