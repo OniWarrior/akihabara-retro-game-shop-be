@@ -16,4 +16,16 @@ const addProduct = async (product) => {
     return addedProduct
 }
 
-module.exports = { addProduct };
+/*
+ * retrieveRole: retrieve role of user
+ */
+const retrieveRole = async (username) => {
+    const role = await db('users')
+        .select('user_type')
+        .where('username', username)
+        .first()
+    return role
+
+}
+
+module.exports = { addProduct, retrieveRole };
