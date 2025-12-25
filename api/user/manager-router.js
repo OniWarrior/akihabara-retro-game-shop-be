@@ -13,6 +13,17 @@ const router = require('express').Router();
 router.post('add-product', async (req, res) => {
     try {
 
+        // deconstruct the req.body to retrieve sent information.
+        const {
+            name,
+            cost,
+            quantity,
+            image_url,
+            product_type,
+            product_desc
+
+        } = req.body;
+
     } catch (err) {
         // failure response
         return res.status(500).json({ message: `Server Error: ${err.message}` });
