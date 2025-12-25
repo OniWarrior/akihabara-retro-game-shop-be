@@ -354,13 +354,7 @@ describe("Customer functionality ", () => {
 
         expect(pastOrders.status).toBe(200)
 
-
-
     })
-
-
-
-
 
 })
 
