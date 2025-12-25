@@ -24,6 +24,16 @@ router.post('add-product', async (req, res) => {
 
         } = req.body;
 
+        // create record object for product record
+        const product = {
+            name: name,
+            cost: cost,
+            quantity: quantity,
+            image_url: image_url,
+            product_type: product_type,
+            product_desc: product_desc
+        }
+
     } catch (err) {
         // failure response
         return res.status(500).json({ message: `Server Error: ${err.message}` });
