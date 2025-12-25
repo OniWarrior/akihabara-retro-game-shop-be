@@ -20,7 +20,7 @@ exports.up = function (knex) {
             users.increments('user_id').primary()
             users.string('username', 20).notNullable().unique()
             users.string('password', 128).notNullable() // high character support for hashed password
-            users.string('user_type', 10).notNullable()
+            users.string('user_type', 10).notNullable().defaultTo("Customer")
         })
         // table for products
         .createTable('products', products => {
