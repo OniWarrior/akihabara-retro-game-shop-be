@@ -8,7 +8,7 @@ const router = require('express').Router();
 const { getRole, checkForMissingProduct } = require('./manager-middleware');
 
 /*
- * add-product: endpoint that allows the manager to add a product
+ * /add-product: endpoint that allows the manager to add a product
  */
 
 router.post('/add-product', getRole, checkForMissingProduct, async (req, res) => {
