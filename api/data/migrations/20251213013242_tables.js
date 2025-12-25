@@ -27,7 +27,7 @@ exports.up = function (knex) {
             products.increments('product_id').primary()
             products.string('name', 40).notNullable()
             products.decimal('cost', 10, 2).notNullable()
-            products.string('image_url').notNullable()
+            products.string('image_url')
             products.integer('quantity').notNullable() // we can have multiples of the same product-used for inventory
             products.string('product_type', 30).notNullable() // for filtering
             products.string('product_desc', 128).notNullable()
@@ -46,7 +46,7 @@ exports.up = function (knex) {
                 .onDelete('CASCADE')
             orders.string('product_name', 40).notNullable()
             orders.decimal('cost', 10, 2).notNullable()
-            orders.string('image_url').notNullable()
+            orders.string('image_url')
             orders.integer('quantity').notNullable()
             orders.date('date').notNullable()
 

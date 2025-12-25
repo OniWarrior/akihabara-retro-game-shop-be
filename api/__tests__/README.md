@@ -4,7 +4,7 @@
 
 ## auth.e2e.test.js
 
-# Integration test Auth (Sessions)
+# Integration Test Auth (Sessions)
 
 
 | **Unit Test**| **Description**|
@@ -17,11 +17,23 @@
 
 ## product.e2e.test.js
 
-# Integration test Product Retrieval
+# Integration Test Product Retrieval
 
 | **Unit Test**| **Description**|
 |-----------------|-------------------|
 |GET /api/product/products | unit test for product retrieval when a visitor visits the site but is not logged in |
+
+
+## customer-router.e2e.test.js
+
+# Integration Test Customer Functionality
+
+| **Unit Test**| **Description**|
+|--------------|---------------------|
+| POST Signup -> Login - > Buy item - happy path | Happy path for buying an item as a customer|
+| POST Signup -> Login - > Buy item - sad path | Sad path for buying an item as a customer-incorrect token |
+| POST Signup -> Login - > Buy item - sad path | Sad path for buying an item as a customer- incorrect req.params |
+| GET Signup -> Login - > Buy item - > past-orders - happy path | Happy path for retrieving past orders as a customer |
 
 
 

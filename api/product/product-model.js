@@ -24,6 +24,24 @@ const getProducts = async () => {
     return products
 }
 
+
+/*
+ * getSpecificProduct: query to get a specific product from db using product id as param
+ */
+const getSpecificProduct = async (product_id) => {
+    const product = await db('products')
+        .select(
+            'name',
+            'cost',
+            'image_url'
+        )
+        .where('product_id', product_id)
+        .first()
+    return product
+
+}
+
 module.exports = {
-    getProducts
+    getProducts,
+    getSpecificProduct
 }

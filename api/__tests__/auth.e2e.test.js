@@ -105,7 +105,7 @@ describe("Auth (sessions) ", () => {
             .post("/api/auth/login")
             .set("X-CSRF-Token", csrf2)
             .set('Content-Type', 'application/json')
-            .send(log)
+            .send(log);
 
 
 
@@ -113,7 +113,7 @@ describe("Auth (sessions) ", () => {
         expect(login.status).toBe(200);
 
         // 3) Status should now show authenticated
-        const status = await agent.get("/api/auth/status")
+        const status = await agent.get("/api/auth/status");
 
         expect(status.status).toBe(200);
         expect(status.body.authenticated).toBe(true);
