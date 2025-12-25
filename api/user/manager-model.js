@@ -5,3 +5,13 @@
  */
 
 const db = require('../data/dbConfig');
+
+/*
+ * addProduct: Adds a product to the database.
+ */
+const addProduct = async (product) => {
+    const addedProduct = await db("products")
+        .insert(product)
+        .returning("product_id")
+    return addedProduct
+}
