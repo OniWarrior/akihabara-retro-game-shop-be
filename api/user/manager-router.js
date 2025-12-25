@@ -34,6 +34,9 @@ router.post('add-product', async (req, res) => {
             product_desc: product_desc
         }
 
+        // insert into the database
+        const addedProduct = await Manager.addProduct(product);
+
     } catch (err) {
         // failure response
         return res.status(500).json({ message: `Server Error: ${err.message}` });

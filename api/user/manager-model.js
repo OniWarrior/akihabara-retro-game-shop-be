@@ -16,4 +16,4 @@ const addProduct = async (product) => {
     return addedProduct
 }
 
-module.exports = addProduct;
+module.exports = { addProduct };
