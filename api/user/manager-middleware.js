@@ -5,3 +5,11 @@
  */
 
 const Manager = require('./manager-model');
+
+// middleware to retrieve user role
+const getRole = async (req, res, next) => {
+
+    // retrieve the username
+    const { username } = req.session.user;
+
+}
